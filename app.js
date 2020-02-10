@@ -60,7 +60,7 @@ hbs.registerHelper('ifUndefined', (value, options) => {
   
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+app.locals.title = 'Contacth - Lightest web3 contact repository';
 
 
 // Enable authentication using session + passport
