@@ -1,4 +1,5 @@
 require('dotenv').config();
+require("./config/dbconnect");
 
 const bodyParser   = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -13,14 +14,7 @@ const session    = require("express-session");
 const MongoStore = require('connect-mongo')(session);
 const flash      = require("connect-flash");
     
-mongoose
-  .connect('mongodb://localhost/contacth', {useNewUrlParser: true})
-  .then(x => {
-    console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
-  })
-  .catch(err => {
-    console.error('Error connecting to mongo', err)
-  });
+
 
 const app_name = require('./package.json').name;
 const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
@@ -65,7 +59,7 @@ app.locals.title = 'Contacth - Lightest web3 contact repository';
 
 // Enable authentication using session + passport
 app.use(session({
-  secret: 'irongenerator',
+  secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true,
   store: new MongoStore( { mongooseConnection: mongoose.connection })

@@ -9,12 +9,48 @@ router.get("/login", (req, res, next) => {
   res.render("auth/login", { "message": req.flash("error") });
 });
 
-router.post("/login", passport.authenticate("local", {
-  successRedirect: "/",
-  failureRedirect: "/auth/login",
-  failureFlash: true,
-  passReqToCallback: true
-}));
+// router.post("/login", passport.authenticate("local", {
+//   successRedirect: "/",
+//   failureRedirect: "/auth/login",
+//   failureFlash: true,
+//   passReqToCallback: true
+// }));
+
+router.post("/login", (req, res, next) => {
+  const user = req.body;
+
+  if (!user.email || !user.password) {
+    // one or more field is missing
+    req.flash("error", "wrong credentials");
+    return res.redirect("/auth/login");
+  }
+
+  User
+    .findOne({ email: user.email })
+    .then(dbRes => {
+      if (!dbRes) {
+        // no user found with this email
+        req.flash("error", "wrong credentials");
+        return res.redirect("/auth/login");
+      }
+      // user has been found in DB !
+      if (bcrypt.compareSync(user.password, dbRes.password)) {
+        // encryption says : password match success
+        const { _doc: clone } = { ...dbRes }; // make a clone of db user
+
+        delete clone.password; // remove password from clone
+        // console.log(clone);
+
+        req.session.currentUser = clone; // user is now in session... until session.destroy
+        return res.redirect("/dashboard");
+      } else {
+        // encrypted password match failed
+        req.flash("error", "wrong credentials");
+        return res.redirect("/auth/login");
+      }
+    })
+    .catch(next);
+});
 
 router.get("/signup", (req, res, next) => {
   res.render("auth/signup");
