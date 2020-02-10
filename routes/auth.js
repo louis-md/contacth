@@ -5,6 +5,7 @@ const User = require("../models/User");
 const Contact = require("../models/Contact")
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
+const nodemailer = require("nodemailer");
 
 router.get("/signup", (req, res, next) => {
   res.render("auth/signup");
@@ -27,33 +28,82 @@ router.post("/signup", (req, res, next) => {
 
     const salt = bcrypt.genSaltSync(bcryptSalt);
     const hashPass = bcrypt.hashSync(password, salt);
+    const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let token = '';
+    for (let i = 0; i < 25; i++) {
+        token += characters[Math.floor(Math.random() * characters.length )];
+    }
     const newUser = new User({
       email: email,
       password: hashPass,
       firstName: firstName,
+      confirmationCode: token,
+      confirmedEmail: false,
     });
 
     newUser.save()
     .then(() => {
-      User.findOne({email: email}).then(dbRes => {
+      User.findOne({email: email})
+      .then(dbRes => {
         const newContact = new Contact({
           owner: dbRes._id,
         });
         newContact.save();
         return dbRes;
       })
-    .then(dbRes => {
-      Contact.findOne({owner: dbRes._id}).then(retrievedContact => {
-        User.findByIdAndUpdate(dbRes._id, {profile: retrievedContact._id})
-      })
-    })
+      // .then(dbRes => {
+      //   console.log(`Ceci est un console log: dbRes._id= ${dbRes._id}`);
+        // Contact.findOne({owner: `"${dbRes._id}"`}).then(retrievedContact => {
+        //   console.log(`Ceci est un console log: nous avons retrouvé le contact ${retrievedContact}`);
+        //   User.findByIdAndUpdate(dbRes._id, {$set: {profile: retrievedContact._id}})
+        // })
+      // })
       res.redirect("/");
+
+      async function sendConfirmationEmail() {
+        let transporter = nodemailer.createTransport({
+          host: process.env.NODEMAILER_HOST,
+          port: process.env.NODEMAILER_PORT,
+          port: 465,
+          secure: true, // true for port 465, must be false for other ports
+          auth: {
+            user: process.env.NODEMAILER_USER,
+            pass: process.env.NODEMAILER_PASSWORD
+          }
+        });
+        
+        console.log(`Ceci est un console log. Le transporteur est ${transporter}`)
+        let info = await transporter.sendMail({
+          from: '"Contacth 👻" <contacth@97.network>',
+          to: email,
+          subject: "Please verify your email ✔",
+          text: `Hi ${firstName}! Please click this link to verify your email: http://localhost:3000/auth/confirm/${token}`,
+          html: `<b>Hi ${firstName}! Please click this link to verify your email: http://localhost:3000/auth/confirm/${token}</b>`
+        });
+        console.log("Message sent: %s", info.messageId);
+      }
+
+      sendConfirmationEmail();
     })
     .catch(err => {
       res.render("auth/signup", {message: "Something went wrong signing up the user"});
     })
   });
 });
+
+router.get("/confirm/:confirmationCode", (req,res,next) => {
+  User
+  .findOne({confirmationCode: req.params.confirmationCode})
+  .then(dbRes => {
+    console.log(`Ceci est un console log. dbRes est ${dbRes}`)
+    if(dbRes !== null) {
+      User
+        .findByIdAndUpdate(dbRes._id, {$set: {confirmedEmail: true}});
+    }
+    res.render("/auth/confirmed-email");
+  })
+  .catch(err => {console.log(err)})
+})
 
 router.get("/login", (req, res, next) => {
   res.render("auth/login", {"message": req.flash("error")});

@@ -1,7 +1,7 @@
 <h2>Signup</h2>
 
 <form action="/auth/signup" method="POST" id="form-container">
-  <label for="firstName">First name</label>
+  <label for="firstName">First name*</label>
   <input id="firstName" type="text" name="firstName" placeholder="Steve" required>
 
   <br><br>
@@ -10,14 +10,14 @@
   <input id="lastName" type="text" name="lastName" placeholder="Jobs">
 
   <br><br>
-  
-  <label for="email">Email</label>
-  <input id="email" type="text" name="email" placeholder="steve.jobs@apple.com">
+
+  <label for="email">Email*</label>
+  <input id="email" type="text" name="email" placeholder="steve.jobs@apple.com" required>
 
   <br><br>
 
-  <label for="password">Password</label>
-  <input id="password" type="password" name="password" placeholder="************">
+  <label for="password">Password*</label>
+  <input id="password" type="password" name="password" placeholder="************" required>
   <br>
   {{#if message }}
     <div class="error-message">{{ message }}</div>
@@ -25,6 +25,7 @@
 
   <br><br>
 
+  <p>*required</p>
   <button>Create account</button>
 
   <p class="account-message">
