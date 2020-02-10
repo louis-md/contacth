@@ -55,7 +55,7 @@ require('./passport')(app);
     
 // expose login status to the hbs templates
 app.use(require("./middlewares/exposeLoginStatus"));
-
+app.use("/", require("./routes"));
 
 const index = require('./routes/index');
 app.use('/', index);
