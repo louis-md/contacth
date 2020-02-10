@@ -53,7 +53,18 @@ app.use(session({
 app.use(flash());
 require('./passport')(app);
     
-app.use('/', require('./routes/index'));
-app.use('/auth', require('./routes/auth'));
+// expose login status to the hbs templates
+app.use(require("./middlewares/exposeLoginStatus"));
+app.use("/", require("./routes"));
+
+const index = require('./routes/index');
+app.use('/', index);
+
+const contacts = require('./routes/contact');
+app.use('/', contacts);
+
+const authRoutes = require('./routes/auth');
+app.use('/auth', authRoutes);
+      
 
 module.exports = app;
