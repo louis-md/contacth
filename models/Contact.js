@@ -14,7 +14,7 @@ const contactSchema = new Schema({
     phoneNumbers: [Number],
     ethAddresses: [String],
     postalAddresses: [{
-      stretname: String,
+      streetname: String,
       streetNumber: String,
       postCode: Number,
       city: String,

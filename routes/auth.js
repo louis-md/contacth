@@ -42,6 +42,7 @@ router.post("/login", (req, res, next) => {
         // console.log(clone);
 
         req.session.currentUser = clone; // user is now in session... until session.destroy
+        
         return res.redirect("/contacts");
       } else {
         // encrypted password match failed

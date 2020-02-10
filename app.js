@@ -57,6 +57,8 @@ hbs.registerHelper('ifUndefined', (value, options) => {
 app.locals.title = 'Contacth - Lightest web3 contact repository';
 
 
+
+
 // Enable authentication using session + passport
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -67,9 +69,15 @@ app.use(session({
 app.use(flash());
 require('./passport')(app);
     
+// expose login status to the hbs templates
+app.use(require("./middlewares/exposeLoginStatus"));
+
 
 const index = require('./routes/index');
 app.use('/', index);
+
+const contacts = require('./routes/contact');
+app.use('/', contacts);
 
 const authRoutes = require('./routes/auth');
 app.use('/auth', authRoutes);
