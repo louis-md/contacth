@@ -6,8 +6,8 @@ router.get('/', (req, res, next) => {
   res.render('index');
 });
 
-router.get("/dashboard", (req, res) => {
-  res.render("dashboard");
+router.get("/contacts", (req, res) => {
+  res.render("contacts-list");
 });
 
 module.exports = router;
