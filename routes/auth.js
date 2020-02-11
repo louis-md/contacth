@@ -5,9 +5,12 @@ const User = require("../models/User");
 const Contact = require("../models/Contact")
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
+var activeUser;
 const nodemailer = require("nodemailer");
 var Recaptcha = require('express-recaptcha').RecaptchaV3;
 var recaptcha = new Recaptcha(process.env.RECAPTCHA_SITEKEY, process.env.RECAPTCHA_SITESECRET, {callback: 'cb'});
+
+
 
 router.get("/signup", recaptcha.middleware.render, (req, res, next) => {
   res.render("auth/signup", {captcha:res.recaptcha});
@@ -22,6 +25,7 @@ router.post("/signup", recaptcha.middleware.verify, (req, res, next) => {
   const hashPass = bcrypt.hashSync(password, salt);
   const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
   let token = '';
+  
 
   for (let i = 0; i < 25; i++) {
       token += characters[Math.floor(Math.random() * characters.length )];
@@ -114,6 +118,7 @@ router.get("/login", (req, res, next) => {
 
 router.post("/login", (req, res, next) => {
   const user = req.body;
+  
 
   if (!user.email || !user.password) {
     req.flash("error", "Wrong credentials");
@@ -123,6 +128,9 @@ router.post("/login", (req, res, next) => {
   User
     .findOne({email: user.email})
     .then(dbRes => {
+      activeUser = dbRes._id
+      console.log(activeUser);
+      
       if (!dbRes) {
         req.flash("error", "Wrong credentials");
         return res.redirect("/auth/login");
@@ -153,3 +161,4 @@ router.get("/logout", (req, res) => {
 });
 
 module.exports = router;
+// export default activeUser

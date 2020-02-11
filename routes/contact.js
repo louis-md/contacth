@@ -3,7 +3,12 @@ const router = express.Router();
 const User = require("../models/User");
 const contactModel = require("../models/Contact");
 const uploader = require("./../config/cloudinary");
+require("./auth");
+// import activeUser from "auth.js"
+
 // const protectRoute = require("../middlewares/protectRoute");
+// console.log(activeUser);
+
 
 router.get("/contact-create", (req, res) => {
     res.render("contacts/contact-create");
@@ -32,7 +37,7 @@ router.post("/contact-create",uploader.single("avatar"), (req, res, next) => {
             twitterId,
             githubId,
             avatar,
-            // user : ref session
+            user : activeUser
         })
         .then(() => {
             req.flash("success", "contact successfully created");

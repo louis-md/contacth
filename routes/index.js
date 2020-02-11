@@ -9,6 +9,8 @@ router.get('/', (req, res, next) => {
 });
 
 router.get("/contacts", (req, res, next) => {
+  
+  
   User
     .find() // retreive all the documents in the artists collection
     .then(dbResults => {
@@ -18,5 +20,8 @@ router.get("/contacts", (req, res, next) => {
     })
     .catch(next);
 });
+
+
+
 
 module.exports = router;
