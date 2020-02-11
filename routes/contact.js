@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require("../models/User");
 const contactModel = require("../models/Contact");
 const uploader = require("./../config/cloudinary");
+require("./auth");
 // const protectRoute = require("../middlewares/protectRoute");
 
 router.get("/contact-create", (req, res) => {

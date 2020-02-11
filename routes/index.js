@@ -9,7 +9,7 @@ router.get('/', (req, res, next) => {
 
 router.get("/contacts", (req, res, next) => {
   contactModel
-    .find({user : req.session.currentUser._id}) // retreive all the documents in the artists collection
+    .find({user : req.session.currentUser._id}) 
     .then(dbResults => {
       res.render("contacts/contact-list", {
         contacts: dbResults
