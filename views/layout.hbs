@@ -12,10 +12,12 @@
 
   <nav>
     <a href="/">Home</a>
+    {{#unless isLoggedIn}}
     <a href="/auth/login">Login</a>
     <a href="/auth/signup">Signup</a>
-    <a href="/auth/logout">Logout</a>
+    {{/unless}}
     {{#if isLoggedIn}}
+    <a href="/auth/logout">Logout</a>
     <a href="/contact-create">Create Contact</a>
     <a href="/contacts">Manage Contacts</a>
     {{/if}}

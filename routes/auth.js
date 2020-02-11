@@ -97,8 +97,7 @@ router.get("/confirm/:confirmationCode", (req,res,next) => {
   .then(dbRes => {
     console.log(`Ceci est un console log. dbRes est ${dbRes}`)
     if(dbRes !== null) {
-      User
-        .findByIdAndUpdate(dbRes._id, {$set: {confirmedEmail: true}});
+      User.updateOne({id: dbRes._id}, {confirmedEmail: true});
     }
     res.render("/auth/confirmed-email");
   })
