@@ -8,6 +8,8 @@ const bcryptSalt = 10;
 const nodemailer = require("nodemailer");
 var Recaptcha = require('express-recaptcha').RecaptchaV2;
 var recaptcha = new Recaptcha(process.env.RECAPTCHA_SITEKEY, process.env.RECAPTCHA_SITESECRET);
+var zxcvbn = require('zxcvbn');
+
 
 router.get("/signup", recaptcha.middleware.render, (req, res, next) => {
   res.render("auth/signup", {captcha:res.recaptcha});
@@ -22,6 +24,8 @@ router.post("/signup", recaptcha.middleware.verify, (req, res, next) => {
   const hashPass = bcrypt.hashSync(password, salt);
   const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
   let token = '';
+
+  zxcvbn(password, req.body);
 
   for (let i = 0; i < 25; i++) {
       token += characters[Math.floor(Math.random() * characters.length )];
@@ -72,7 +76,7 @@ router.post("/signup", recaptcha.middleware.verify, (req, res, next) => {
     firstName: firstName,
     lastName: lastName
   });
-
+  console.log(req.recaptcha.error);
   if (!req.recaptcha.error) {
     Promise.all([newUser.save(), newContact.save()])
     .then(dbRes => {
@@ -91,7 +95,7 @@ router.post("/signup", recaptcha.middleware.verify, (req, res, next) => {
       res.render("auth/signup", {message: "Error signing up the user"});
     })
   } else {
-    res.render("auth/recaptcha")
+    res.render("auth/recaptcha-error")
   }
   
 })
