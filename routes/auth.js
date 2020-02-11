@@ -20,7 +20,7 @@ router.post("/signup", (req, res, next) => {
     return;
   }
 
-  User.findOne({email}, "email", (err, user) => {
+  User.findOne({ email }, "email", (err, user) => {
     if (user !== null) {
       res.render("auth/signup", { message: "This email already exists" });
       return;
@@ -105,7 +105,7 @@ router.get("/confirm/:confirmationCode", (req,res,next) => {
 })
 
 router.get("/login", (req, res, next) => {
-  res.render("auth/login", {"message": req.flash("error")});
+  res.render("auth/login", { "message": req.flash("error") });
 });
 
 router.post("/login", (req, res, next) => {
@@ -117,7 +117,7 @@ router.post("/login", (req, res, next) => {
   }
 
   User
-    .findOne({email: user.email})
+    .findOne({ email: user.email })
     .then(dbRes => {
       if (!dbRes) {
         req.flash("error", "Wrong credentials");
@@ -139,8 +139,9 @@ router.post("/login", (req, res, next) => {
 });
 
 router.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/");
+  req.session.destroy(() => {
+    res.redirect("/");
+  });
 });
 
 module.exports = router;
