@@ -6,8 +6,8 @@ const Contact = require("../models/Contact")
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 const nodemailer = require("nodemailer");
-var Recaptcha = require('express-recaptcha').RecaptchaV3;
-var recaptcha = new Recaptcha(process.env.RECAPTCHA_SITEKEY, process.env.RECAPTCHA_SITESECRET, {callback: 'cb'});
+var Recaptcha = require('express-recaptcha').RecaptchaV2;
+var recaptcha = new Recaptcha(process.env.RECAPTCHA_SITEKEY, process.env.RECAPTCHA_SITESECRET);
 
 router.get("/signup", recaptcha.middleware.render, (req, res, next) => {
   res.render("auth/signup", {captcha:res.recaptcha});
