@@ -7,6 +7,7 @@ const uploader = require("./../config/cloudinary");
 
 router.get("/contact-create", (req, res) => {
     res.render("contacts/contact-create");
+    console.log(req.session);
 });
 
 router.post("/contact-create",uploader.single("avatar"), (req, res, next) => {
@@ -32,7 +33,7 @@ router.post("/contact-create",uploader.single("avatar"), (req, res, next) => {
             twitterId,
             githubId,
             avatar,
-            // user : ref session
+            user : req.session.currentUser._id
         })
         .then(() => {
             req.flash("success", "contact successfully created");
@@ -40,7 +41,6 @@ router.post("/contact-create",uploader.single("avatar"), (req, res, next) => {
         })
         .catch(next);
 });
-
 
 router.get("/contact/:id", (req, res, next) => {
     contactModel
@@ -51,7 +51,6 @@ router.get("/contact/:id", (req, res, next) => {
       .catch(next);
   });
 
-
   router.get("/contacts/contact-edit/:id", (req, res, next) => {
     contactModel
       .findById(req.params.id)
@@ -60,6 +59,5 @@ router.get("/contact/:id", (req, res, next) => {
       })
       .catch(next);
   });
-
 
 module.exports = router;
