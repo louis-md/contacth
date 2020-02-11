@@ -5,11 +5,15 @@
     <a class="navbar-brand font-weight-bold" href="/">
       <img rel="img-fluid" src="/images/logo.png" width="35px" alt="logo">
     </a>
-    <a class="navbar-brand font-weight-bold" href="/">Contacth</a>
 
     {{#if isLoggedIn}}
-      {{!-- <a class="navbar-brand font-weight-bold"href="/contacts">Manage contacts</a> --}}
+      <a class="navbar-brand font-weight-bold" href="/">Home</a>
+      <a class="navbar-brand font-weight-bold"href="/contacts">My contacts</a>
+      <a class="navbar-brand font-weight-bold"href="/contacts">Settings</a>
     {{/if}}
+    {{#unless isLoggedIn}}
+    <a class="navbar-brand font-weight-bold" href="/">Contacth</a>
+    {{/unless}}
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
       <ion-icon name="ios-menu" classname="text-primary" role="img" class="md hydrated" aria-label="menu">
         <div class="icon-inner">
@@ -19,7 +23,6 @@
         </div>
       </ion-icon>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav ml-auto mr-5">
       </div>
