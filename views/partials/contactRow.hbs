@@ -1,24 +1,15 @@
 <td class="table-division">
-  <div><img src="{{this.avatar}}" alt="img" class="table-image" /></div>
+  <div><a href="/contact/{{this._id}}"><img src="{{this.avatar}}" alt="img" class="table-image" /></a></div>
 </td>
 <td class="table-division">
-  <div>{{this.lastName}}</div>
+  <div><a href="/contact/{{this._id}}">{{this.firstName}}</a></div>
 </td>
 <td class="table-division">
-  <div>
-    <ul>
-      {{#each this.phoneNumbers}}
-      <li>
-        {{this}}
-      </li>
-      {{/each}}
-    </ul>
-    {{!-- {{this.phoneNumbers}} --}}
-    </div>
+  <div><a href="/contact/{{this._id}}">{{this.lastName}}</a></div>
 </td>
 
 <td class="table-division">
-  <a href="/products/contact-edit/{{this._id}}" data-id-sneaker="{{this._id}}" class="fa fa-edit table-icon"></a>
+  <a href="/contacts/contact-edit/{{this._id}}" data-id-sneaker="{{this._id}}" class="fa fa-edit table-icon"></a>
 </td>
 <td class="table-division">
   <span class="fa fa-trash table-icon" data-id-sneaker="{{this._id}}"  aria-hidden="true"></span>

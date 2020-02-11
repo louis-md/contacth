@@ -34,6 +34,10 @@ const contactSchema = new Schema({
       type: String,
       default: "https://cdn.onlinewebfonts.com/svg/img_258083.png"
     },
+    user:{
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
 });
 
 const Contact = mongoose.model("Contact", contactSchema);

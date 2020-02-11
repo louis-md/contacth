@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const contactModel = require("../models/Contact");
+const User = require("../models/User");
 
 router.get('/', (req, res, next) => {
 
@@ -8,11 +9,11 @@ router.get('/', (req, res, next) => {
 });
 
 router.get("/contacts", (req, res, next) => {
-  contactModel
+  User
     .find() // retreive all the documents in the artists collection
     .then(dbResults => {
       res.render("contacts/contact-list", {
-        contacts: dbResults
+        user: dbResults
       });
     })
     .catch(next);

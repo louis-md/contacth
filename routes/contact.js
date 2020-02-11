@@ -13,6 +13,7 @@ router.post("/contact-create",uploader.single("avatar"), (req, res, next) => {
     console.log(req.body);
     
       const { firstName, lastName, secondaryEmails, phoneNumbers, ethAddresses, streetName, streetNumber, special, postCode, city, country, principalResidency, googleId, twitterId, githubId, avatar } = req.body;
+      if (req.file) avatar = req.file.url;
     contactModel
         .create({
             firstName,
@@ -30,7 +31,8 @@ router.post("/contact-create",uploader.single("avatar"), (req, res, next) => {
             googleId,
             twitterId,
             githubId,
-            // avatar
+            avatar,
+            // user : ref session
         })
         .then(() => {
             req.flash("success", "contact successfully created");
@@ -38,5 +40,26 @@ router.post("/contact-create",uploader.single("avatar"), (req, res, next) => {
         })
         .catch(next);
 });
+
+
+router.get("/contact/:id", (req, res, next) => {
+    contactModel
+      .findById(req.params.id)
+      .then(contact => {
+        res.render("contacts/contact-page", { contact });
+      })
+      .catch(next);
+  });
+
+
+  router.get("/contacts/contact-edit/:id", (req, res, next) => {
+    contactModel
+      .findById(req.params.id)
+      .then(contact => {
+        res.render("contacts/contact-edit", { contact });
+      })
+      .catch(next);
+  });
+
 
 module.exports = router;

@@ -6,15 +6,15 @@
     <thead>
       <tr class="table-row">
         <th class="table-head">Contact's avatar</th>
-        <th class="table-head">Contact's Name</th>
-        <th class="table-head">Contact's Phone</th>
+        <th class="table-head">First Name</th>
+        <th class="table-head">Last name</th>
         <th class="table-head">Edit</th>
         <th class="table-head">Delete</th>
       </tr>
     </thead>
 
     <tbody>
-      {{#each contacts}}
+      {{#each user.contacts}}
       <tr class="table-row">
         {{> contactRow}}
       </tr>
