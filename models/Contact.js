@@ -28,7 +28,8 @@ const contactSchema = new Schema({
       googleId: String,
       twitterId: String,
       facebookId: String,
-      githubId: String
+      githubId: String,
+      asanaId: String
       },
     avatar: {
       type: String,

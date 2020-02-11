@@ -37,7 +37,7 @@ hbs.registerHelper('ifUndefined', (value, options) => {
   }
 });
   
-app.locals.title = 'Contacth - Light & secure web3 contact repository';
+app.locals.title = 'Contacth';
 
 app.use(session({
   secret: process.env.SESSION_SECRET,

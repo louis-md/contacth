@@ -1,0 +1,94 @@
+<nav class="navbar navbar-default navbar-expand-md navbar-light sticky-top">
+  <div class="container">
+
+    {{!-- Logo/Nom --}}
+    <a class="navbar-brand font-weight-bold" href="/">
+      <img rel="img-fluid" src="/images/logo.png" width="35px" alt="logo">
+    </a>
+    <a class="navbar-brand font-weight-bold" href="/">Contacth</a>
+
+    {{#if isLoggedIn}}
+      {{!-- <a class="navbar-brand font-weight-bold"href="/contacts">Manage contacts</a> --}}
+    {{/if}}
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
+      <ion-icon name="ios-menu" classname="text-primary" role="img" class="md hydrated" aria-label="menu">
+        <div class="icon-inner">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="s-ion-icon">
+              <path d="M432 176H80c-8.8 0-16-7.2-16-16s7.2-16 16-16h352c8.8 0 16 7.2 16 16s-7.2 16-16 16zM432 272H80c-8.8 0-16-7.2-16-16s7.2-16 16-16h352c8.8 0 16 7.2 16 16s-7.2 16-16 16zM432 368H80c-8.8 0-16-7.2-16-16s7.2-16 16-16h352c8.8 0 16 7.2 16 16s-7.2 16-16 16z"></path>
+            </svg>
+        </div>
+      </ion-icon>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav ml-auto mr-5">
+      </div>
+    <div class="my-2 my-sm-0">
+        {{!-- Bouton Login Navbar--}}
+        {{#unless isLoggedIn}}
+        <button data-toggle="modal" data-target="#login-oy2nrmz20" class="btn btn-secondary btn-sm">
+        <span class="d-flex align-items-center">Log in&nbsp;&nbsp;
+            <ion-icon name="log-in" role="img" class="md hydrated" aria-label="log in">
+            <div class="icon-inner">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="s-ion-icon">
+                <path d="M256 48c-42.9 0-84.2 13-119.2 37.5-34.2 24-60.2 57.2-75.1 96.1L58 192h45.7l1.9-5c8.2-17.8 19.4-33.9 33.5-48 31.2-31.2 72.7-48.4 116.9-48.4s85.7 17.2 116.9 48.4c31.2 31.2 48.4 72.7 48.4 116.9 0 44.1-17.2 85.7-48.4 116.9-31.2 31.2-72.7 48.4-116.9 48.4-44.1 0-85.6-17.2-116.9-48.4-14-14-25.3-30.1-33.5-47.9l-1.9-5H58l3.6 10.4c14.9 38.9 40.9 72.1 75.1 96.1C171.8 451.1 213 464 256 464c114.7 0 208-93.3 208-208S370.7 48 256 48z"></path>
+                <path d="M48 277.4h189.7l-43.6 44.7L224 352l96-96-96-96-31 29.9 44.7 44.7H48v42.8z"></path>
+                </svg>
+            </div>
+            </ion-icon>
+        </span>
+        </button>
+        {{/unless}}
+        {{#if isLoggedIn}}
+        <button onclick="window.location.href = '/auth/logout';"class="btn btn-secondary btn-sm">
+            <span class="d-flex align-items-center">Log out&nbsp;&nbsp;
+                    <ion-icon name="log-in" role="img" class="md hydrated" aria-label="log in">
+                        <div class="icon-inner">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="s-ion-icon">
+                            <path d="M256 48c-42.9 0-84.2 13-119.2 37.5-34.2 24-60.2 57.2-75.1 96.1L58 192h45.7l1.9-5c8.2-17.8 19.4-33.9 33.5-48 31.2-31.2 72.7-48.4 116.9-48.4s85.7 17.2 116.9 48.4c31.2 31.2 48.4 72.7 48.4 116.9 0 44.1-17.2 85.7-48.4 116.9-31.2 31.2-72.7 48.4-116.9 48.4-44.1 0-85.6-17.2-116.9-48.4-14-14-25.3-30.1-33.5-47.9l-1.9-5H58l3.6 10.4c14.9 38.9 40.9 72.1 75.1 96.1C171.8 451.1 213 464 256 464c114.7 0 208-93.3 208-208S370.7 48 256 48z"></path>
+                            <path d="M48 277.4h189.7l-43.6 44.7L224 352l96-96-96-96-31 29.9 44.7 44.7H48v42.8z"></path>
+                            </svg>
+                        </div>
+                    </ion-icon>
+            </span>
+        </button>
+        {{/if}}
+
+        {{!-- Formulaire de login --}}
+        <div class="modal fade" id="login-oy2nrmz20" tabindex="-1" role="dialog" aria-labelledby="login-oy2nrmz20" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content text-left text-dark">
+            <div class="modal-header p-4">
+                <h5 class="modal-title text-primary font-weight-bold" id="modal-title-login-oy2nrmz20">Log in</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form action="/auth/login" name="login" method="POST">
+                <div class="modal-body p-4">
+                <div class="form-group">
+                    <label>Email address</label>
+                    <input type="email" name="email" class="form-control" placeholder="Enter your email" autocomplete="username" required="">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="Password" autocomplete="current-password">
+                </div>
+                <small>
+                    <a class="text-primary" href="/password-recovery">Forgot your password?</a> 
+                </small>
+                </div>
+                <div class="modal-footer p-4">
+                <small>
+                    <a class="text-primary" href="/auth/signup">Don't have an account yet? Signup</a> 
+                </small>
+                <button type="submit" class="btn btn-primary">Log in</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
