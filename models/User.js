@@ -6,14 +6,19 @@ const userSchema = new Schema({
   password: {type: String, required: true},
   firstName: {type: String, required: true},
   lastName: String,
-  profile: [{
+  profile: {
     type: Schema.Types.ObjectId,
     ref: "Contact",
-  }],
+  },
   contacts: [{
     type: Schema.Types.ObjectId,
     ref: "Contact"
-  }]
+  }],
+  confirmedEmail: Boolean,
+  confirmationCode: {
+    type: String,
+    unique: true
+  }
 }, {
   timestamps: {
     createdAt: 'created_at',

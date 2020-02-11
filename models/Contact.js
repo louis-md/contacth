@@ -20,7 +20,6 @@ const contactSchema = new Schema({
       streetNumber: Number,
       special: String,
       postCode: Number,
-     
       city: String,
       country: String,
       principalResidency: Boolean
