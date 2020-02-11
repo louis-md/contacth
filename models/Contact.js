@@ -2,16 +2,16 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const contactSchema = new Schema({
-    // owner: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'User'
-    // },
-    // sharedWith: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'User'
-    // },
-    firstName:String,
-    lastName:String,
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    sharedWith: [{
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }],
+    firstName: String,
+    lastName: String,
     secondaryEmails: [String],
     phoneNumbers: [Number],
     ethAddresses: [String],

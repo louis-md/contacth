@@ -6,106 +6,110 @@ const Contact = require("../models/Contact")
 const bcrypt = require("bcrypt");
 const bcryptSalt = 10;
 const nodemailer = require("nodemailer");
+var Recaptcha = require('express-recaptcha').RecaptchaV3;
+var recaptcha = new Recaptcha(process.env.RECAPTCHA_SITEKEY, process.env.RECAPTCHA_SITESECRET, {callback: 'cb'});
 
-router.get("/signup", (req, res, next) => {
-  res.render("auth/signup");
+router.get("/signup", recaptcha.middleware.render, (req, res, next) => {
+  res.render("auth/signup", {captcha:res.recaptcha});
 });
 
-router.post("/signup", (req, res, next) => {
+router.post("/signup", recaptcha.middleware.verify, (req, res, next) => {
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
   const email = req.body.email;
   const password = req.body.password;
-  const firstName = req.body.firstName;
+  const salt = bcrypt.genSaltSync(bcryptSalt);
+  const hashPass = bcrypt.hashSync(password, salt);
+  const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let token = '';
+
+  for (let i = 0; i < 25; i++) {
+      token += characters[Math.floor(Math.random() * characters.length )];
+  }
+
   if (email === "" || password === "") {
     res.render("auth/signup", { message: "Indicate email and password" });
     return;
   }
 
-  User.findOne({ email }, "email", (err, user) => {
+  User.findOne({email}, "email", (err, user) => {
     if (user !== null) {
       res.render("auth/signup", { message: "This email already exists" });
       return;
     }
+  })
 
-    const salt = bcrypt.genSaltSync(bcryptSalt);
-    const hashPass = bcrypt.hashSync(password, salt);
-    const characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    let token = '';
-    for (let i = 0; i < 25; i++) {
-        token += characters[Math.floor(Math.random() * characters.length )];
-    }
-    const newUser = new User({
-      email: email,
-      password: hashPass,
-      firstName: firstName,
-      confirmationCode: token,
-      confirmedEmail: false,
-    });
-
-    newUser.save()
-    .then(() => {
-      User.findOne({email: email})
-      .then(dbRes => {
-        const newContact = new Contact({
-          owner: dbRes._id,
-        });
-        newContact.save();
-        return dbRes;
-      })
-      // .then(dbRes => {
-      //   console.log(`Ceci est un console log: dbRes._id= ${dbRes._id}`);
-        // Contact.findOne({owner: `"${dbRes._id}"`}).then(retrievedContact => {
-        //   console.log(`Ceci est un console log: nous avons retrouvé le contact ${retrievedContact}`);
-        //   User.findByIdAndUpdate(dbRes._id, {$set: {profile: retrievedContact._id}})
-        // })
-      // })
-      res.redirect("/");
-
-      async function sendConfirmationEmail() {
-        let transporter = nodemailer.createTransport({
-          host: process.env.NODEMAILER_HOST,
-          port: process.env.NODEMAILER_PORT,
-          port: 465,
-          secure: true, // true for port 465, must be false for other ports
-          auth: {
-            user: process.env.NODEMAILER_USER,
-            pass: process.env.NODEMAILER_PASSWORD
-          }
-        });
-        
-        console.log(`Ceci est un console log. Le transporteur est ${transporter}`)
-        let info = await transporter.sendMail({
-          from: '"Contacth 👻" <contacth@97.network>',
-          to: email,
-          subject: "Please verify your email ✔",
-          text: `Hi ${firstName}! Please click this link to verify your email: http://localhost:3000/auth/confirm/${token}`,
-          html: `<b>Hi ${firstName}! Please click this link to verify your email: http://localhost:3000/auth/confirm/${token}</b>`
-        });
-        console.log("Message sent: %s", info.messageId);
+  async function sendConfirmationEmail() {
+    let transporter = nodemailer.createTransport({
+      host: process.env.NODEMAILER_HOST,
+      port: process.env.NODEMAILER_PORT,
+      port: 465,
+      secure: true, // true for port 465, must be false for other ports
+      auth: {
+        user: process.env.NODEMAILER_USER,
+        pass: process.env.NODEMAILER_PASSWORD
       }
+    });
+    
+    let info = await transporter.sendMail({
+      from: '"Contacth 👻" <contacth@97.network>',
+      to: email,
+      subject: "Please verify your email ✔",
+      text: `Hi ${firstName}! Please click this link to verify your email: http://localhost:3000/auth/confirm/${token}`,
+      html: `<b>Hi ${firstName}! Please click this link to verify your email: http://localhost:3000/auth/confirm/${token}</b>`
+    });
+    console.log("Message sent!", info.messageId);
+  }
 
-      sendConfirmationEmail();
+  const newUser = new User({
+    email: email,
+    password: hashPass,
+    confirmationCode: token,
+    confirmedEmail: false,
+  });
+
+  const newContact = new Contact({
+    firstName: firstName,
+    lastName: lastName
+  });
+
+  if (!req.recaptcha.error) {
+    Promise.all([newUser.save(), newContact.save()])
+    .then(dbRes => {
+      User
+        .findByIdAndUpdate(dbRes[0]._id, {profile: dbRes[1]._id})
+        .then(() => {
+          Contact
+            .findByIdAndUpdate(dbRes[1]._id, {owner: dbRes[0]._id})
+            .then(() => {
+              res.redirect("/");
+              sendConfirmationEmail();
+            })
+        })
     })
     .catch(err => {
-      res.render("auth/signup", {message: "Something went wrong signing up the user"});
+      res.render("auth/signup", {message: "Error signing up the user"});
     })
-  });
-});
+  } else {
+    res.render("auth/recaptcha")
+  }
+  
+})
 
 router.get("/confirm/:confirmationCode", (req,res,next) => {
-  User
-  .findOne({confirmationCode: req.params.confirmationCode})
+  User.findOne({confirmationCode: req.params.confirmationCode})
   .then(dbRes => {
-    console.log(`Ceci est un console log. dbRes est ${dbRes}`)
     if(dbRes !== null) {
-      User.updateOne({id: dbRes._id}, {confirmedEmail: true});
+      User.findByIdAndUpdate(dbRes._id, {confirmedEmail: true}, {new: true})
+        //TODO: "This email has already been confirmed"; "Sorry, this confirmation link timed out. Click here to resend the email"
+        .then(res.render("auth/confirmed-email"))
     }
-    res.render("/auth/confirmed-email");
   })
   .catch(err => {console.log(err)})
 })
 
 router.get("/login", (req, res, next) => {
-  res.render("auth/login", { "message": req.flash("error") });
+  res.render("auth/login", {"message": req.flash("error")});
 });
 
 router.post("/login", (req, res, next) => {
@@ -117,7 +121,7 @@ router.post("/login", (req, res, next) => {
   }
 
   User
-    .findOne({ email: user.email })
+    .findOne({email: user.email})
     .then(dbRes => {
       if (!dbRes) {
         req.flash("error", "Wrong credentials");
@@ -129,7 +133,11 @@ router.post("/login", (req, res, next) => {
         delete clone.password;
 
         req.session.currentUser = clone;
-        return res.redirect("/contacts");
+        if(dbRes.confirmedEmail) {
+          return res.redirect("/contacts");
+        } else {
+          return res.render("auth/unconfirmed-email")
+        }
       } else {
         req.flash("error", "Wrong credentials");
         return res.redirect("/auth/login");
