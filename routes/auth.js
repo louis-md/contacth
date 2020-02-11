@@ -19,7 +19,7 @@ router.post("/signup", (req, res, next) => {
     return;
   }
 
-  User.findOne({email}, "email", (err, user) => {
+  User.findOne({ email }, "email", (err, user) => {
     if (user !== null) {
       res.render("auth/signup", { message: "This email already exists" });
       return;
@@ -34,29 +34,29 @@ router.post("/signup", (req, res, next) => {
     });
 
     newUser.save()
-    .then(() => {
-      User.findOne({email: email}).then(dbRes => {
-        const newContact = new Contact({
-          owner: dbRes._id,
-        });
-        newContact.save();
-        return dbRes;
+      .then(() => {
+        User.findOne({ email: email }).then(dbRes => {
+          const newContact = new Contact({
+            owner: dbRes._id,
+          });
+          newContact.save();
+          return dbRes;
+        })
+          .then(dbRes => {
+            Contact.findOne({ owner: dbRes._id }).then(retrievedContact => {
+              User.findByIdAndUpdate(dbRes._id, { profile: retrievedContact._id })
+            })
+          })
+        res.redirect("/");
       })
-    .then(dbRes => {
-      Contact.findOne({owner: dbRes._id}).then(retrievedContact => {
-        User.findByIdAndUpdate(dbRes._id, {profile: retrievedContact._id})
+      .catch(err => {
+        res.render("auth/signup", { message: "Something went wrong signing up the user" });
       })
-    })
-      res.redirect("/");
-    })
-    .catch(err => {
-      res.render("auth/signup", {message: "Something went wrong signing up the user"});
-    })
   });
 });
 
 router.get("/login", (req, res, next) => {
-  res.render("auth/login", {"message": req.flash("error")});
+  res.render("auth/login", { "message": req.flash("error") });
 });
 
 router.post("/login", (req, res, next) => {
@@ -68,7 +68,7 @@ router.post("/login", (req, res, next) => {
   }
 
   User
-    .findOne({email: user.email})
+    .findOne({ email: user.email })
     .then(dbRes => {
       if (!dbRes) {
         req.flash("error", "Wrong credentials");
@@ -90,8 +90,9 @@ router.post("/login", (req, res, next) => {
 });
 
 router.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/");
+  req.session.destroy(() => {
+    res.redirect("/");
+  });
 });
 
 module.exports = router;
