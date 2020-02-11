@@ -13,7 +13,7 @@ const contactSchema = new Schema({
     firstName: String,
     lastName: String,
     secondaryEmails: [String],
-    phoneNumbers: [Number],
+    phoneNumbers: [String],
     ethAddresses: [String],
     postalAddresses: [{
       streetName: String,
@@ -33,6 +33,10 @@ const contactSchema = new Schema({
     avatar: {
       type: String,
       default: "https://cdn.onlinewebfonts.com/svg/img_258083.png"
+    },
+    user:{
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
 });
 
