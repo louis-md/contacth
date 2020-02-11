@@ -2,10 +2,19 @@
   <div><img src="{{this.avatar}}" alt="img" class="table-image" /></div>
 </td>
 <td class="table-division">
-  <div>{{!-- {{this.name}}   --}}name  </div>
+  <div>{{this.lastName}}</div>
 </td>
 <td class="table-division">
-  <div>{{!-- {{this.phoneNumbers[0]}}   --}} phone number  </div>
+  <div>
+    <ul>
+      {{#each this.phoneNumbers}}
+      <li>
+        {{this}}
+      </li>
+      {{/each}}
+    </ul>
+    {{!-- {{this.phoneNumbers}} --}}
+    </div>
 </td>
 
 <td class="table-division">

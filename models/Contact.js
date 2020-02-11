@@ -13,7 +13,7 @@ const contactSchema = new Schema({
     firstName:String,
     lastName:String,
     secondaryEmails: [String],
-    phoneNumbers: [Number],
+    phoneNumbers: [String],
     ethAddresses: [String],
     postalAddresses: [{
       streetName: String,
