@@ -435,5 +435,3 @@ ethjsSignTypedDataButton.addEventListener('click', function(event) {
 
   })
 })
-
-module.exports = signEthMessage

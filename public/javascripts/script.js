@@ -37,15 +37,6 @@ personalSignButton.addEventListener('click', function(event) {
   var from = web3.eth.accounts[0]
   if (!from) return connect()
 
-  /*  web3.personal.sign not yet implemented!!!
-   *  We're going to have to assemble the tx manually!
-   *  This is what it would probably look like, though:
-    web3.personal.sign(msg, from) function (err, result) {
-      if (err) return console.error(err)
-      console.log('PERSONAL SIGNED:' + result)
-    })
-  */
-
    console.log('CLICKED, SENDING PERSONAL SIGN REQ')
   var params = [msg, from]
   var method = 'personal_sign'
@@ -75,27 +66,6 @@ personalSignButton.addEventListener('click', function(event) {
       console.log('Failed, comparing %s to %s', recovered, from)
     }
 
-
-    /*
-    method = 'personal_ecRecover'
-    var params = [msg, result.result]
-    web3.currentProvider.sendAsync({
-      method,
-      params,
-      from,
-    }, function (err, recovered) {
-      console.dir({ err, recovered })
-      if (err) return console.error(err)
-      if (result.error) return console.error(result.error)
-
-      if (result.result === from ) {
-        console.log('Successfully verified signer as ' + from)
-      } else {
-        console.log('Failed to verify signer when comparing ' + result.result + ' to ' + from)
-      }
-
-    })
-    */
   })
 
 })
@@ -110,16 +80,7 @@ personalRecoverTest.addEventListener('click', function(event) {
   var from = web3.eth.accounts[0]
   if (!from) return connect()
 
-  /*  web3.personal.sign not yet implemented!!!
-   *  We're going to have to assemble the tx manually!
-   *  This is what it would probably look like, though:
-    web3.personal.sign(msg, from) function (err, result) {
-      if (err) return console.error(err)
-      console.log('PERSONAL SIGNED:' + result)
-    })
-  */
-
-   console.log('CLICKED, SENDING PERSONAL SIGN REQ')
+  console.log('CLICKED, SENDING PERSONAL SIGN REQ')
   var params = [msg, from]
   var method = 'personal_sign'
 
@@ -192,7 +153,6 @@ ethjsPersonalSignButton.addEventListener('click', function(event) {
   })
 })
 
-
 signTypedDataButton.addEventListener('click', function(event) {
   event.preventDefault()
 
@@ -212,14 +172,6 @@ signTypedDataButton.addEventListener('click', function(event) {
   var from = web3.eth.accounts[0]
   if (!from) return connect()
 
-  /*  web3.eth.signTypedData not yet implemented!!!
-   *  We're going to have to assemble the tx manually!
-   *  This is what it would probably look like, though:
-    web3.eth.signTypedData(msg, from) function (err, result) {
-      if (err) return console.error(err)
-      console.log('PERSONAL SIGNED:' + result)
-    })
-  */
 
    console.log('CLICKED, SENDING PERSONAL SIGN REQ')
   var params = [msgParams, from]
@@ -283,9 +235,7 @@ signTypedDataV3Button.addEventListener('click', function(event) {
       to:{name:"Bob",wallet:"0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB"},
       contents:"Hello, Bob!"}
     })
-  
       
-  
     var from = web3.eth.accounts[0]
   
     console.log('CLICKED, SENDING PERSONAL SIGN REQ', 'from', from, msgParams)
