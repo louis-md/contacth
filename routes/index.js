@@ -7,6 +7,10 @@ router.get('/', (req, res, next) => {
   res.render('index');
 });
 
+router.get('/eth', (req, res, next) => {
+  res.render('eth/signTest');
+});
+
 router.get("/contacts", (req, res, next) => {
   Promise.all([contactModel.find({user : req.session.currentUser._id}),User.findById(req.session.currentUser._id)])
     .then(dbResults => {
