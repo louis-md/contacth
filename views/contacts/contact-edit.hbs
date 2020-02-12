@@ -1,0 +1,118 @@
+{{>navbar}}
+<div class="big-container product-manage-wrapper flexed-item">
+
+    <form action="/contacts/contact-edit/{{contact._id}}" method="post" class="create-contact-form" enctype="multipart/form-data">
+        {{!-- <form action="/contact-create" method="post" class="create-contact-form"> --}}
+
+
+
+        <h3 class="form-title">Update contact in my contact-list</h3>
+        <div class="form-item-wrapper flexed-item">
+            <label for="contact-firstName" class="label-name label">First name</label>
+            <input id="contact-firstName" type="text" name="firstName" class="input-text input"
+                value="{{contact.firstName}}">
+        </div>
+
+        <div class="form-item-wrapper flexed-item">
+            <label for="contact-lastName" class="label-ref label">Last name</label>
+            <input id="contact-lastName" type="text" name="lastName" class="input-text input"
+                value="{{contact.lastName}}">
+        </div>
+        {{#each contact.secondaryEmails}}
+        <div class="form-item-wrapper flexed-item">
+            <label for="contact-email" class="label-ref label">email</label>
+            <input id="contact-email" type="text" name="secondaryEmails" class="input-text input" placeholder="ex: 37"
+                value="{{this}}">
+        </div>
+        {{/each}}
+        {{#each contact.phoneNumbers}}
+        <div class="form-item-wrapper flexed-item">
+            <label for="contact-phone" class="label-descr label">phone number</label>
+            <input id="contact-phone" type="text" name="phoneNumbers" class="input-text input"
+                placeholder="The better sneakers to run" value="{{this}}">
+        </div>
+        {{/each}}
+        {{#each contact.ethAddresses}}
+        <div class="form-item-wrapper flexed-item">
+            <label for="contact-ethereumAddresses" class="label-price label">ethereum address</label>
+            <input id="contact-ethereumAddresses" type="text" name="ethAddresses" class="input-text input"
+                value="{{this}}">
+        </div>
+        {{/each}}
+        <div>Postal Address(es)</div>
+        {{#each contact.postalAddresses}}
+        <div class="form-item-wrapper flexed-item">
+            <label for="address-streetName" class="label-name label">street name</label>
+            <input id="address-streetName" type="text" name="streetName" class="input-text input"
+                value="{{this.streetName}}">
+        </div>
+        <div class="form-item-wrapper flexed-item">
+            <label for="address-streetNumber" class="label-name label">street number</label>
+            <input id="address-streetNumber" type="number" min="1" name="streetNumber" class="input-text input"
+                value="{{this.streetNumber}}">
+        </div>
+        <div class="form-item-wrapper flexed-item">
+            <label for="address-special" class="label-name label">special</label>
+            <input id="address-special" type="text" name="special" class="input-text input" value="{{this.special}}">
+        </div>
+        <div class="form-item-wrapper flexed-item">
+            <label for="address-postCode" class="label-name label">post code</label>
+            <input id="address-postCode" type="number" name="postCode" class="input-text input"
+                value="{{this.postCode}}">
+        </div>
+        <div class="form-item-wrapper flexed-item">
+            <label for="address-city" class="label-name label">city</label>
+            <input id="address-city" type="text" name="city" class="input-text input" value="{{this.city}}">
+        </div>
+        <div class="form-item-wrapper flexed-item">
+            <label for="address-country" class="label-name label">country</label>
+            <input id="address-country" type="text" name="country" class="input-text input" value="{{this.country}}">
+        </div>
+        <div class="form-item-wrapper flexed-item">
+            <label class="label">is principal residency ?</label>
+            <div class="row">
+                {{#if this.principalResidency }}
+                <label for="is-principalResidency">yes</label>
+                <input id="is-principalResidency" type="radio" name="principalResidency" value="yes" checked>
+                <label for="is-not-principalResidency">no</label>
+                <input id="is-not-principalResidency" type="radio" name="principalResidency" value="no">
+                {{else}}
+                <label for="is-principalResidency">yes</label>
+                <input id="is-principalResidency" type="radio" name="principalResidency" value="yes">
+                <label for="is-not-principalResidency">no</label>
+                <input id="is-not-principalResidency" type="radio" name="principalResidency" value="no" checked>
+                {{/if}}
+            </div>
+        </div>
+        {{/each}}
+        <div>social Accounts</div>
+        <div class="form-item-wrapper flexed-item">
+            <label for="socialAccounts-googleId" class="label-name label">google ID</label>
+            <input id="socialAccounts-googleId" type="text" name="googleId" class="input-text input"
+                value="{{contact.googleId}}">
+        </div>
+        <div class="form-item-wrapper flexed-item">
+            <label for="socialAccounts-twitterId" class="label-name label">twitter ID</label>
+            <input id="socialAccounts-twitterId" type="text" name="twitterId" class="input-text input"
+                value="{{contact.twitterId}}">
+        </div>
+        <div class="form-item-wrapper flexed-item">
+            <label for="socialAccounts-facebookId" class="label-name label">facebook ID</label>
+            <input id="socialAccounts-facebookId" type="text" name="facebookId" class="input-text input"
+                value="{{contact.facebookId}}">
+        </div>
+        <div class="form-item-wrapper flexed-item">
+            <label for="socialAccounts-githubId" class="label-name label">github ID</label>
+            <input id="socialAccounts-githubId" type="text" name="githubId" class="input-text input"
+                value="{{contact.githubId}}">
+        </div>
+
+        <div class="form-item-wrapper flexed-item">
+            <label for="contact-img" class="label-price label">Avatar</label>
+            <input id="contact-img" type="file" name="avatar" class="input-text input" value="{{contact.avatar}}">
+        </div>
+
+        <button class="button-primary add-sneaker-btn">Update contact</button>
+    </form>
+
+</div>
