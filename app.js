@@ -15,6 +15,9 @@ const flash        = require("connect-flash");
 const app_name     = require('./package.json').name;
 const debug        = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 const app          = express();
+const Web3         = require('web3');
+const web3         = new Web3(Web3.givenProvider);
+
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -50,16 +53,11 @@ require('./passport')(app);
     
 // expose login status to the hbs templates
 app.use(require("./middlewares/exposeLoginStatus"));
+
 app.use("/", require("./routes"));
-
-const index = require('./routes/index');
-app.use('/', index);
-
-const contacts = require('./routes/contact');
-app.use('/', contacts);
-
-const authRoutes = require('./routes/auth');
-app.use('/auth', authRoutes);
+app.use('/', require('./routes/index'));
+app.use('/', require('./routes/contact'));
+app.use('/auth', require('./routes/auth'));
       
 
 module.exports = app;
