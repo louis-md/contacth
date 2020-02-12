@@ -58,6 +58,9 @@ app.use('/', index);
 const contacts = require('./routes/contact');
 app.use('/', contacts);
 
+const profile = require('./routes/profile');
+app.use('/', profile);
+
 const authRoutes = require('./routes/auth');
 app.use('/auth', authRoutes);
       

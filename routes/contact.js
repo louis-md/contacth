@@ -7,7 +7,11 @@ require("./auth");
 // const protectRoute = require("../middlewares/protectRoute");
 
 router.get("/contact-create", (req, res) => {
-  res.render("contacts/contact-create");
+  User
+  .findById(req.session.currentUser._id)
+  .then(dbResults => {
+  res.render("contacts/contact-create",{user:dbResults})
+  });
   console.log(req.session);
 });
 
@@ -49,27 +53,31 @@ router.post("/contact-create", uploader.single("avatar"), (req, res, next) => {
 });
 
 router.get("/contact/:id", (req, res, next) => {
-  contactModel
-    .findById(req.params.id)
-    .then(contact => {
-      res.render("contacts/contact-page", { contact });
+   Promise.all([contactModel.findById(req.params.id),User.findById(req.session.currentUser._id)])
+    .then(dbResults => {
+      res.render("contacts/contact-page", { 
+        contact : dbResults[0],
+      user:dbResults[1]
+     });
     })
     .catch(next);
 });
 
 router.get("/contacts/contact-edit/:id", (req, res, next) => {
-  contactModel
-    .findById(req.params.id)
-    .then(contact => {
-      res.render("contacts/contact-edit", { contact });
+  Promise.all([contactModel
+    .findById(req.params.id),User.findById(req.session.currentUser._id)])
+    .then(dbResults => {
+      res.render("contacts/contact-edit", { 
+        contact: dbResults[0],
+      user:dbResults[1] });
     })
     .catch(next);
 });
 
 router.post("/contacts/contact-edit/:id", uploader.single("avatar"), (req, res, next) => {
   const { firstName, lastName, secondaryEmails, phoneNumbers, ethAddresses, streetName, streetNumber, special, postCode, city, country, principalResidency, googleId, twitterId, githubId } = req.body;
-  if (req.file) avatar = req.file.url;
-  else avatar = "https://cdn.onlinewebfonts.com/svg/img_258083.png";
+  // if (req.file) avatar = req.file.url;
+  // else avatar = "https://cdn.onlinewebfonts.com/svg/img_258083.png";
 
   contactModel
     .findByIdAndUpdate(req.params.id, {
@@ -90,13 +98,24 @@ router.post("/contacts/contact-edit/:id", uploader.single("avatar"), (req, res, 
       googleId,
       twitterId,
       githubId,
-      avatar,
+      // avatar,
       user: req.session.currentUser._id
     })
-    .then(() => {
-      res.redirect("/contacts")
+    .then(contact => {
+      res.render("contacts/contact-page", { contact });
     })
     .catch(err => console.log(err));
 });
+
+router.get("/contacts/contact-delete/:id", (req, res, next) => {
+  contactModel
+    .findByIdAndDelete(req.params.id)
+    .then(dbRes => {
+      res.redirect("/contacts")
+    })
+    .catch(next);
+});
+
+
 
 module.exports = router;

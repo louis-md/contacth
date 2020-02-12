@@ -1,0 +1,65 @@
+{{>navbar}}
+
+
+<h1>{{user.profile.firstName}} {{user.profile.lastName}}</h1>
+
+<img src="{{user.profile.avatar}}" alt="profile picture">
+<br>
+<a href="/contacts/contact-avatar-edit/{{user.profile._id}}">update avatar</a>
+
+<div>
+  <h2>phone numbers</h2>
+  <ul>
+    {{#each user.profile.phoneNumbers}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+</div>
+<div>
+  <h2>Emails</h2>
+  <ul>
+    {{#each user.profile.secondaryEmails}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+</div>
+<div>
+  <h2>Ethereum address</h2>
+  <ul>
+    {{#each user.profile.ethAddresses}}
+    <li>{{this}}</li>
+    {{/each}}
+  </ul>
+</div>
+<h2>Postal address</h2>
+<ul>
+  {{#each user.profile.postalAddresses}}
+  <li>
+    {{#if this.principalResidency }}
+    <h4>Principal Residency</h4> <br>
+    {{else}}
+    <h4>Secondary Residency </h4><br>
+    {{/if}}
+    {{this.streetNumber}} {{this.special}} {{this.streetName}} <br>
+    {{this.postCode}}   {{this.city}} <br>
+    {{this.country}}
+  </li>
+  {{/each}}
+</ul>
+</div>
+<div>
+  <h2>Social Accounts</h2>
+  <ul>
+    <li> Google : {{user.profile.googleId}}</li>
+    <li>Twitter : {{user.profile.twitterId}}</li>
+    <li>Facebook : {{user.profile.facebookId}}</li>
+    <li>GitHub : {{user.profile.githubId}}</li>
+  </ul>
+</div>
+
+<div>
+
+    <a href="/user/profile-edit/{{user.profile._id}}">update profile</a>
+   
+ 
+</div>
