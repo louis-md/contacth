@@ -5,14 +5,17 @@ const contactModel = require("../models/Contact");
 const uploader = require("./../config/cloudinary");
 require("./auth");
 // const protectRoute = require("../middlewares/protectRoute");
+var scripts = [{ script: "/javascripts/script2.js" }];
+
 
 router.get("/contact-create", (req, res) => {
   User
     .findById(req.session.currentUser._id)
     .then(dbResults => {
-      res.render("contacts/contact-create", { user: dbResults })
+      res.render("contacts/contact-create", { 
+        user: dbResults,
+        scripts: scripts })
     });
-  console.log(req.session);
 });
 
 
@@ -69,7 +72,8 @@ router.get("/contacts/contact-edit/:id", (req, res, next) => {
     .then(dbResults => {
       res.render("contacts/contact-edit", {
         contact: dbResults[0],
-        user: dbResults[1]
+        user: dbResults[1],
+        scripts: scripts
       });
     })
     .catch(next);
@@ -110,7 +114,7 @@ router.post("/contacts/contact-edit/:id", uploader.single("avatar"), (req, res, 
         .then(dbResult => {
           res.render("contacts/contact-page", {
             contact: dbResult[0],
-            user: dbResult[1]
+            user: dbResult[1],
           });
         })
         .catch(err => console.log(err));
@@ -126,6 +130,9 @@ router.get("/contacts/contact-delete/:id", (req, res, next) => {
     })
     .catch(next);
 });
+
+
+
 
 
 

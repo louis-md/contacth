@@ -4,6 +4,7 @@ const User = require("../models/User");
 const contactModel = require("../models/Contact");
 const uploader = require("./../config/cloudinary");
 require("./auth");
+var scripts = [{ script: "/javascripts/script2.js" }];
 
 router.get("/user/:id", (req, res, next) => {
   User
@@ -20,7 +21,9 @@ router.get("/user/profile-edit/:id", (req, res, next) => {
     .findById(req.session.currentUser._id)
     .populate("profile")
     .then(user => {
-      res.render("profile/profile-edit", { user });
+      res.render("profile/profile-edit", { 
+        user,
+        scripts: scripts })
     })
     .catch(next);
 });

@@ -385,3 +385,4 @@ ethjsSignTypedDataButton.addEventListener('click', function(event) {
 
   })
 })
+

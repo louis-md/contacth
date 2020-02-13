@@ -19,136 +19,157 @@
             <input id="contact-lastName" type="text" name="lastName" class="input-text input"
                 value="{{contact.lastName}}">
         </div>
-
-        {{#if user.profile.secondaryEmails}}
-        {{#each contact.secondaryEmails}}
-        <div class="form-item-wrapper flexed-item">
-            <label for="contact-email" class="label-ref label">email</label>
-            <input id="contact-email" type="text" name="secondaryEmails" class="input-text input" placeholder="ex: 37"
-                value="{{this}}">
+        <div id="emails">
+            {{#if user.profile.secondaryEmails}}
+            {{#each contact.secondaryEmails}}
+            <div class="form-item-wrapper flexed-item">
+                <label for="contact-email" class="label-ref label">email</label>
+                <input id="contact-email" type="text" name="secondaryEmails" class="input-text input" value="{{this}}">
+                <span id="btn-delete-email" class="fa fa-trash table-icon"></span>
+            </div>
+            {{/each}}
+            {{else}}
+            <div class="form-item-wrapper flexed-item">
+                <label for="contact-email" class="label-ref label">email</label>
+                <input id="contact-email" type="text" name="secondaryEmails" class="input-text input"
+                    placeholder="mail@gmail.com">
+                <span id="btn-delete-email" class="fa fa-trash table-icon"></span>
+            </div>
+            {{/if}}
         </div>
-        {{/each}}
-        {{else}}
-        <div class="form-item-wrapper flexed-item">
-            <label for="contact-email" class="label-ref label">email</label>
-            <input id="contact-email" type="text" name="secondaryEmails" class="input-text input" placeholder="email">
+        <div id="btn-add-email" class="fas fa-plus">add email</div>
+        <div id="phone-numbers">
+            {{#if contact.phoneNumbers}}
+            {{#each contact.phoneNumbers}}
+            <div class="form-item-wrapper flexed-item">
+                <label for="contact-phone" class="label-descr label">phone number</label>
+                <input id="contact-phone" type="text" name="phoneNumbers" class="input-text input" value="{{this}}">
+                <span id="btn-delete-number" class="fa fa-trash table-icon"></span>
+            </div>
+            {{/each}}
+            {{else}}
+            <div class="form-item-wrapper flexed-item">
+                <label for="contact-phone" class="label-descr label">phone number</label>
+                <input id="contact-phone" type="text" name="phoneNumbers" class="input-text input">
+                <span id="btn-delete-number" class="fa fa-trash table-icon"></span>
+            </div>
+            {{/if}}
         </div>
-        {{/if}}
-          {{#if contact.phoneNumbers}}
-        {{#each contact.phoneNumbers}}
-        <div class="form-item-wrapper flexed-item">
-            <label for="contact-phone" class="label-descr label">phone number</label>
-            <input id="contact-phone" type="text" name="phoneNumbers" class="input-text input"
-                placeholder="The better sneakers to run" value="{{this}}">
+        <div id="btn-add-number" class="fas fa-plus">add phone number</div>
+        <div id="ethAddresses">
+            {{#if contact.ethAddresses}}
+            {{#each contact.ethAddresses}}
+            <div class="form-item-wrapper flexed-item">
+                <label for="contact-ethereumAddresses" class="label-price label">ethereum address</label>
+                <input id="contact-ethereumAddresses" type="text" name="ethAddresses" class="input-text input"
+                    value="{{this}}">
+                    <span id="btn-delete-ethAddress" class="fa fa-trash table-icon"></span>
+            </div>
+            {{/each}}
+            {{else}}
+            <div class="form-item-wrapper flexed-item">
+                <label for="contact-ethereumAddresses" class="label-price label">ethereum address</label>
+                <input id="contact-ethereumAddresses" type="text" name="ethAddresses" class="input-text input">
+                <span id="btn-delete-ethAddress" class="fa fa-trash table-icon"></span>
+            </div>
+            {{/if}}
         </div>
-        {{/each}}
-        {{else}}
-        <div class="form-item-wrapper flexed-item">
-            <label for="contact-phone" class="label-descr label">phone number</label>
-            <input id="contact-phone" type="text" name="phoneNumbers" class="input-text input"
-                placeholder="phone number">
-        </div>
-        {{/if}}
-        {{#if contact.ethAddresses}}
-        {{#each contact.ethAddresses}}
-        <div class="form-item-wrapper flexed-item">
-            <label for="contact-ethereumAddresses" class="label-price label">ethereum address</label>
-            <input id="contact-ethereumAddresses" type="text" name="ethAddresses" class="input-text input"
-                value="{{this}}">
-        </div>
-        {{/each}}
-        {{else}}
-        <div class="form-item-wrapper flexed-item">
-            <label for="contact-ethereumAddresses" class="label-price label">ethereum address</label>
-            <input id="contact-ethereumAddresses" type="text" name="ethAddresses" class="input-text input"
-                placeholder="ethereum address">
-        </div>
-        {{/if}}
+        <div id="btn-add-ethAddress" class="fas fa-plus">add ethereum address</div>
         <div>Postal Address(es)</div>
-        {{#if contact.postalAddresses}}
-        {{#each contact.postalAddresses}}
-        <div class="form-item-wrapper flexed-item">
-            <label for="address-streetName" class="label-name label">street name</label>
-            <input id="address-streetName" type="text" name="streetName" class="input-text input"
-                value="{{this.streetName}}">
-        </div>
-        <div class="form-item-wrapper flexed-item">
-            <label for="address-streetNumber" class="label-name label">street number</label>
-            <input id="address-streetNumber" type="number" min="1" name="streetNumber" class="input-text input"
-                value="{{this.streetNumber}}">
-        </div>
-        <div class="form-item-wrapper flexed-item">
-            <label for="address-special" class="label-name label">special</label>
-            <input id="address-special" type="text" name="special" class="input-text input" value="{{this.special}}">
-        </div>
-        <div class="form-item-wrapper flexed-item">
-            <label for="address-postCode" class="label-name label">post code</label>
-            <input id="address-postCode" type="number" name="postCode" class="input-text input"
-                value="{{this.postCode}}">
-        </div>
-        <div class="form-item-wrapper flexed-item">
-            <label for="address-city" class="label-name label">city</label>
-            <input id="address-city" type="text" name="city" class="input-text input" value="{{this.city}}">
-        </div>
-        <div class="form-item-wrapper flexed-item">
-            <label for="address-country" class="label-name label">country</label>
-            <input id="address-country" type="text" name="country" class="input-text input" value="{{this.country}}">
-        </div>
-        <div class="form-item-wrapper flexed-item">
-            <label class="label">is principal residency ?</label>
-            <div class="row">
-                {{#if this.principalResidency }}
-                <label for="is-principalResidency">yes</label>
-                <input id="is-principalResidency" type="radio" name="principalResidency" value="yes" checked>
-                <label for="is-not-principalResidency">no</label>
-                <input id="is-not-principalResidency" type="radio" name="principalResidency" value="no">
-                {{else}}
-                <label for="is-principalResidency">yes</label>
-                <input id="is-principalResidency" type="radio" name="principalResidency" value="yes">
-                <label for="is-not-principalResidency">no</label>
-                <input id="is-not-principalResidency" type="radio" name="principalResidency" value="no" checked>
-                {{/if}}
+        <div id="postalAddresses">
+            {{#if contact.postalAddresses}}
+            {{#each contact.postalAddresses}}
+            <div id="postalAddress">
+                <div class="form-item-wrapper flexed-item">
+                    <label for="address-streetName" class="label-name label">street name</label>
+                    <input id="address-streetName" type="text" name="streetName" class="input-text input"
+                        value="{{this.streetName}}">
+                </div>
+                <div class="form-item-wrapper flexed-item">
+                    <label for="address-streetNumber" class="label-name label">street number</label>
+                    <input id="address-streetNumber" type="number" min="1" name="streetNumber" class="input-text input"
+                        value="{{this.streetNumber}}">
+                </div>
+                <div class="form-item-wrapper flexed-item">
+                    <label for="address-special" class="label-name label">special</label>
+                    <input id="address-special" type="text" name="special" class="input-text input"
+                        value="{{this.special}}">
+                </div>
+                <div class="form-item-wrapper flexed-item">
+                    <label for="address-postCode" class="label-name label">post code</label>
+                    <input id="address-postCode" type="number" name="postCode" class="input-text input"
+                        value="{{this.postCode}}">
+                </div>
+                <div class="form-item-wrapper flexed-item">
+                    <label for="address-city" class="label-name label">city</label>
+                    <input id="address-city" type="text" name="city" class="input-text input" value="{{this.city}}">
+                </div>
+                <div class="form-item-wrapper flexed-item">
+                    <label for="address-country" class="label-name label">country</label>
+                    <input id="address-country" type="text" name="country" class="input-text input"
+                        value="{{this.country}}">
+                </div>
+                <div class="form-item-wrapper flexed-item">
+                    <label class="label">is principal residency ?</label>
+                    <div class="row">
+                        {{#if this.principalResidency }}
+                        <label for="is-principalResidency">yes</label>
+                        <input id="is-principalResidency" type="radio" name="principalResidency" value="yes" checked>
+                        <label for="is-not-principalResidency">no</label>
+                        <input id="is-not-principalResidency" type="radio" name="principalResidency" value="no">
+                        {{else}}
+                        <label for="is-principalResidency">yes</label>
+                        <input id="is-principalResidency" type="radio" name="principalResidency" value="yes">
+                        <label for="is-not-principalResidency">no</label>
+                        <input id="is-not-principalResidency" type="radio" name="principalResidency" value="no" checked>
+                        {{/if}}
+                    </div>
+                </div>
+                <span id="btn-delete-postalAddress" class="fa fa-trash table-icon"></span>
+                <hr>
             </div>
-        </div>
-        {{/each}}
-        {{else}}
-        <div class="form-item-wrapper flexed-item">
-            <label for="address-streetName" class="label-name label">street name</label>
-            <input id="address-streetName" type="text" name="streetName" class="input-text input"
-                placeholder="street name">
-        </div>
-        <div class="form-item-wrapper flexed-item">
-            <label for="address-streetNumber" class="label-name label">street number</label>
-            <input id="address-streetNumber" type="number" min="1" name="streetNumber" class="input-text input"
-                placeholder="street number">
-        </div>
-        <div class="form-item-wrapper flexed-item">
-            <label for="address-special" class="label-name label">special</label>
-            <input id="address-special" type="text" name="special" class="input-text input" placeholder="special">
-        </div>
-        <div class="form-item-wrapper flexed-item">
-            <label for="address-postCode" class="label-name label">post code</label>
-            <input id="address-postCode" type="number" name="postCode" class="input-text input"
-                placeholder="post code">
-        </div>
-        <div class="form-item-wrapper flexed-item">
-            <label for="address-city" class="label-name label">city</label>
-            <input id="address-city" type="text" name="city" class="input-text input" placeholder="city">
-        </div>
-        <div class="form-item-wrapper flexed-item">
-            <label for="address-country" class="label-name label">country</label>
-            <input id="address-country" type="text" name="country" class="input-text input" placeholder="country">
-        </div>
-        <div class="form-item-wrapper flexed-item">
-            <label class="label">is principal residency ?</label>
-            <div class="row">
-                <label for="is-principalResidency">yes</label>
-                <input id="is-principalResidency" type="radio" name="principalResidency" value="yes">
-                <label for="is-not-principalResidency">no</label>
-                <input id="is-not-principalResidency" type="radio" name="principalResidency" value="no" checked>
+            {{/each}}
+            {{else}}
+            <div id="postalAddress">
+                <div class="form-item-wrapper flexed-item">
+                    <label for="address-streetName" class="label-name label">street name</label>
+                    <input id="address-streetName" type="text" name="streetName" class="input-text input">
+                </div>
+                <div class="form-item-wrapper flexed-item">
+                    <label for="address-streetNumber" class="label-name label">street number</label>
+                    <input id="address-streetNumber" type="number" min="1" name="streetNumber" class="input-text input">
+                </div>
+                <div class="form-item-wrapper flexed-item">
+                    <label for="address-special" class="label-name label">special</label>
+                    <input id="address-special" type="text" name="special" class="input-text input">
+                </div>
+                <div class="form-item-wrapper flexed-item">
+                    <label for="address-postCode" class="label-name label">post code</label>
+                    <input id="address-postCode" type="number" name="postCode" class="input-text input">
+                </div>
+                <div class="form-item-wrapper flexed-item">
+                    <label for="address-city" class="label-name label">city</label>
+                    <input id="address-city" type="text" name="city" class="input-text input">
+                </div>
+                <div class="form-item-wrapper flexed-item">
+                    <label for="address-country" class="label-name label">country</label>
+                    <input id="address-country" type="text" name="country" class="input-text input">
+                </div>
+                <div class="form-item-wrapper flexed-item">
+                    <label class="label">is principal residency ?</label>
+                    <div class="row">
+                        <label for="is-principalResidency">yes</label>
+                        <input id="is-principalResidency" type="radio" name="principalResidency" value="yes">
+                        <label for="is-not-principalResidency">no</label>
+                        <input id="is-not-principalResidency" type="radio" name="principalResidency" value="no" checked>
+                    </div>
+                </div>
+                <span id="btn-delete-postalAddress" class="fa fa-trash table-icon"></span>
+                <hr>
             </div>
+            {{/if}}
         </div>
-        {{/if}}
+        <div id="btn-add-postalAddress" class="fas fa-plus">add postal address</div>
         <div>social Accounts</div>
         <div class="form-item-wrapper flexed-item">
             <label for="socialAccounts-googleId" class="label-name label">google ID</label>

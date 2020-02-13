@@ -50,7 +50,8 @@ app.use(session({
 }))
 app.use(flash());
 require('./passport')(app);
-    
+
+
 // expose login status to the hbs templates
 app.use(require("./middlewares/exposeLoginStatus"));
 

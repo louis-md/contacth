@@ -2,73 +2,91 @@
 <div class="big-container product-manage-wrapper flexed-item">
 
     <form action="/contact-create" method="post" class="create-contact-form" enctype="multipart/form-data">
-    {{!-- <form action="/contact-create" method="post" class="create-contact-form"> --}}
+        {{!-- <form action="/contact-create" method="post" class="create-contact-form"> --}}
 
 
 
         <h3 class="form-title">Add contact to my contact-list</h3>
         <div class="form-item-wrapper flexed-item">
             <label for="contact-firstName" class="label-name label">First name</label>
-            <input id="contact-firstName" type="text" name="firstName" class="input-text input"  value="Jean">
+            <input id="contact-firstName" type="text" name="firstName" class="input-text input">
         </div>
 
         <div class="form-item-wrapper flexed-item">
             <label for="contact-lastName" class="label-ref label">Last name</label>
-            <input id="contact-lastName" type="text" name="lastName" class="input-text input"  value="TARTINE">
+            <input id="contact-lastName" type="text" name="lastName" class="input-text input">
         </div>
-
-        <div class="form-item-wrapper flexed-item">
-            <label for="contact-email" class="label-ref label">email</label>
-            <input id="contact-email" type="text" name="secondaryEmails" class="input-text input" placeholder="ex: 37"
-                 value="jean.tartine@gmail.com">
-        </div>
-
-        <div class="form-item-wrapper flexed-item">
-            <label for="contact-phone" class="label-descr label">phone number</label>
-            <input id="contact-phone" type="text" name="phoneNumbers" class="input-text input"
-                placeholder="The better sneakers to run"  value="0645321485">
-        </div>
-
-        <div class="form-item-wrapper flexed-item">
-            <label for="contact-ethereumAddresses" class="label-price label">ethereum address</label>
-            <input id="contact-ethereumAddresses" type="text" name="ethAddresses" class="input-text input" value="test">
-        </div>
-        <div>Postal Address(es)</div>
-        <div class="form-item-wrapper flexed-item">
-            <label for="address-streetName" class="label-name label">street name</label>
-            <input id="address-streetName" type="text" name="streetName" class="input-text input" 
-                value="rue de courcelle">
-        </div>
-        <div class="form-item-wrapper flexed-item">
-            <label for="address-streetNumber" class="label-name label">street number</label>
-            <input id="address-streetNumber" type="number" min="1" name="streetNumber" class="input-text input" 
-                value="25">
-        </div>
-        <div class="form-item-wrapper flexed-item">
-            <label for="address-special" class="label-name label">special</label>
-            <input id="address-special" type="text" name="special" class="input-text input" value="bis">
-        </div>
-        <div class="form-item-wrapper flexed-item">
-            <label for="address-postCode" class="label-name label">post code</label>
-            <input id="address-postCode" type="number" name="postCode" class="input-text input"  value="Jean">
-        </div>
-        <div class="form-item-wrapper flexed-item">
-            <label for="address-city" class="label-name label">city</label>
-            <input id="address-city" type="text" name="city" class="input-text input"  value="Paris">
-        </div>
-        <div class="form-item-wrapper flexed-item">
-            <label for="address-country" class="label-name label">country</label>
-            <input id="address-country" type="text" name="country" class="input-text input"  value="France">
-        </div>
-        <div class="form-item-wrapper flexed-item">
-            <label class="label">is principal residency ?</label>
-            <div class="row">
-                <label for="is-principalResidency">yes</label>
-                <input id="is-principalResidency" type="radio" name="principalResidency" value="yes">
-                <label for="is-not-principalResidency">no</label>
-                <input id="is-not-principalResidency" type="radio" name="principalResidency" value="no" checked>
+        <div id="emails">
+            <div id="fieldEmail" class="form-item-wrapper flexed-item">
+                <label for="contact-email" class="label-ref label">email</label>
+                <input id="contact-email" type="text" name="secondaryEmails" class="input-text input" placeholder="mail@gmail.com">
+                <span id="btn-delete-email" class="fa fa-trash table-icon" ></span>
             </div>
         </div>
+        <div id="btn-add-email" class="fas fa-plus">add email</div>
+        <div id="phone-numbers">
+            <div id="fieldPhoneNumber" class="form-item-wrapper flexed-item">
+                <label for="contact-phone" class="label-descr label">phone number</label>
+                <input id="contact-phone" type="text" name="phoneNumbers" class="input-text input">
+                <span id="btn-delete-number" class="fa fa-trash table-icon" ></span>
+            </div>
+        </div>
+        <div id="btn-add-number" class="fas fa-plus">add phone number</div>
+
+        <div id="ethAddresses">
+            <div class="form-item-wrapper flexed-item">
+                <label for="contact-ethereumAddresses" class="label-price label">ethereum address</label>
+                <input id="contact-ethereumAddresses" type="text" name="ethAddresses" class="input-text input">
+                <span id="btn-delete-ethAddress" class="fa fa-trash table-icon" ></span>
+            </div>
+        </div>
+        <div id="btn-add-ethAddress" class="fas fa-plus">add ethereum address</div>
+
+
+        <div>Postal Address(es)</div>
+
+
+        <div id="postalAddresses">
+            
+                <div class="form-item-wrapper flexed-item">
+                    <label for="address-streetName" class="label-name label">street name</label>
+                    <input id="address-streetName" type="text" name="streetName" class="input-text input">
+                </div>
+                <div class="form-item-wrapper flexed-item">
+                    <label for="address-streetNumber" class="label-name label">street number</label>
+                    <input id="address-streetNumber" type="number" min="1" name="streetNumber" class="input-text input">
+                </div>
+                <div class="form-item-wrapper flexed-item">
+                    <label for="address-special" class="label-name label">special</label>
+                    <input id="address-special" type="text" name="special" class="input-text input">
+                </div>
+                <div class="form-item-wrapper flexed-item">
+                    <label for="address-postCode" class="label-name label">post code</label>
+                    <input id="address-postCode" type="number" name="postCode" class="input-text input">
+                </div>
+                <div class="form-item-wrapper flexed-item">
+                    <label for="address-city" class="label-name label">city</label>
+                    <input id="address-city" type="text" name="city" class="input-text input">
+                </div>
+                <div class="form-item-wrapper flexed-item">
+                    <label for="address-country" class="label-name label">country</label>
+                    <input id="address-country" type="text" name="country" class="input-text input">
+                </div>
+                <div class="form-item-wrapper flexed-item">
+                    <label class="label">is principal residency ?</label>
+                    <div class="row">
+                        <label for="is-principalResidency">yes</label>
+                        <input id="is-principalResidency" type="radio" name="principalResidency" value="yes">
+                        <label for="is-not-principalResidency">no</label>
+                        <input id="is-not-principalResidency" type="radio" name="principalResidency" value="no" checked>
+                    </div>
+                </div>
+                <span id="btn-delete-postalAddress" class="fa fa-trash table-icon" ></span>
+                <hr>
+            </div>
+        </div>
+        <div id="btn-add-postalAddress" class="fas fa-plus">add postal address</div>
+
         <div>social Accounts</div>
         <div class="form-item-wrapper flexed-item">
             <label for="socialAccounts-googleId" class="label-name label">google ID</label>
