@@ -12,7 +12,6 @@ router.get("/contact-create", (req, res) => {
 });
 
 
-
 router.post("/contact-create", uploader.single("avatar"), (req, res, next) => {
   console.log(req.body);
 

@@ -15,9 +15,9 @@ const flash        = require("connect-flash");
 const app_name     = require('./package.json').name;
 const debug        = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 const app          = express();
-const Web3         = require('web3');
-const web3         = new Web3(Web3.givenProvider);
-
+const axios        = require('axios').default;
+// const ethUtil      = require('ethereumjs-util');
+// const Eth          = require('ethjs');
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -28,7 +28,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
-hbs.registerPartials(path.join(__dirname, "views/partials")); // where are the tiny chunks of views ?
+hbs.registerPartials(path.join(__dirname, "views/partials"));
 
 hbs.registerHelper('ifUndefined', (value, options) => {
   if (arguments.length < 2)
@@ -54,10 +54,14 @@ require('./passport')(app);
 // expose login status to the hbs templates
 app.use(require("./middlewares/exposeLoginStatus"));
 
+// use web3 functions to connect Metamask & sign messages
+// app.use(require("./middlewares/connectMetamask"));
+// app.use(require("./middlewares/signMessage"));
+
 app.use("/", require("./routes"));
 app.use('/', require('./routes/index'));
 app.use('/', require('./routes/contact'));
 app.use('/auth', require('./routes/auth'));
-      
+// app.use('/metamask', require("./routes/metamask"))
 
 module.exports = app;
