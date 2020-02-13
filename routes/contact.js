@@ -5,10 +5,17 @@ const contactModel = require("../models/Contact");
 const uploader = require("./../config/cloudinary");
 require("./auth");
 // const protectRoute = require("../middlewares/protectRoute");
+var scripts = [{ script: "/javascripts/script2.js" }];
+
 
 router.get("/contact-create", (req, res) => {
-  res.render("contacts/contact-create");
-  console.log(req.session);
+  User
+    .findById(req.session.currentUser._id)
+    .then(dbResults => {
+      res.render("contacts/contact-create", { 
+        user: dbResults,
+        scripts: scripts })
+    });
 });
 
 
@@ -48,54 +55,84 @@ router.post("/contact-create", uploader.single("avatar"), (req, res, next) => {
 });
 
 router.get("/contact/:id", (req, res, next) => {
-  contactModel
-    .findById(req.params.id)
-    .then(contact => {
-      res.render("contacts/contact-page", { contact });
+  Promise.all([contactModel.findById(req.params.id), User.findById(req.session.currentUser._id)])
+    .then(dbResults => {
+      res.render("contacts/contact-page", {
+        contact: dbResults[0],
+        user: dbResults[1]
+      });
     })
     .catch(next);
 });
 
 router.get("/contacts/contact-edit/:id", (req, res, next) => {
-  contactModel
-    .findById(req.params.id)
-    .then(contact => {
-      res.render("contacts/contact-edit", { contact });
+  Promise.all([contactModel
+    .findById(req.params.id), User.findById(req.session.currentUser._id)])
+    .then(dbResults => {
+      res.render("contacts/contact-edit", {
+        contact: dbResults[0],
+        user: dbResults[1],
+        scripts: scripts
+      });
     })
     .catch(next);
 });
 
 router.post("/contacts/contact-edit/:id", uploader.single("avatar"), (req, res, next) => {
   const { firstName, lastName, secondaryEmails, phoneNumbers, ethAddresses, streetName, streetNumber, special, postCode, city, country, principalResidency, googleId, twitterId, githubId } = req.body;
-  if (req.file) avatar = req.file.url;
-  else avatar = "https://cdn.onlinewebfonts.com/svg/img_258083.png";
 
   contactModel
-    .findByIdAndUpdate(req.params.id, {
-      firstName,
-      lastName,
-      secondaryEmails,
-      phoneNumbers,
-      ethAddresses,
-      postalAddresses: [{
-        streetName,
-        streetNumber,
-        special,
-        postCode,
-        city,
-        country,
-        principalResidency: principalResidency === "yes"
-      }],
-      googleId,
-      twitterId,
-      githubId,
-      avatar,
-      user: req.session.currentUser._id
+    .findById(req.params.id)
+    .then(dbRes => {
+      let picture = dbRes.avatar;
+      if (req.file) avatar = req.file.url;
+      else avatar = picture
+
+      Promise.all([contactModel
+        .findByIdAndUpdate(req.params.id, {
+          firstName,
+          lastName,
+          secondaryEmails,
+          phoneNumbers,
+          ethAddresses,
+          postalAddresses: [{
+            streetName,
+            streetNumber,
+            special,
+            postCode,
+            city,
+            country,
+            principalResidency: principalResidency === "yes"
+          }],
+          googleId,
+          twitterId,
+          githubId,
+          avatar,
+          user: req.session.currentUser._id
+        }, { new: true }), User.findById(req.session.currentUser._id)])
+        .then(dbResult => {
+          res.render("contacts/contact-page", {
+            contact: dbResult[0],
+            user: dbResult[1],
+          });
+        })
+        .catch(err => console.log(err));
     })
-    .then(() => {
+    .catch(next);
+});
+
+router.get("/contacts/contact-delete/:id", (req, res, next) => {
+  contactModel
+    .findByIdAndDelete(req.params.id)
+    .then(dbRes => {
       res.redirect("/contacts")
     })
-    .catch(err => console.log(err));
+    .catch(next);
 });
+
+
+
+
+
 
 module.exports = router;

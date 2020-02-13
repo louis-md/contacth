@@ -12,11 +12,11 @@ router.get('/eth', (req, res, next) => {
 });
 
 router.get("/contacts", (req, res, next) => {
-  contactModel
-    .find({user : req.session.currentUser._id}) 
+  Promise.all([contactModel.find({user : req.session.currentUser._id}),User.findById(req.session.currentUser._id)])
     .then(dbResults => {
       res.render("contacts/contact-list", {
-        contacts: dbResults
+        contacts: dbResults[0],
+        user:dbResults[1]
       });
     })
     .catch(next);
