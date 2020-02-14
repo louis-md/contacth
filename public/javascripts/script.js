@@ -15,11 +15,6 @@ function connect() {
   } 
 }
 
-connectButton.addEventListener("click", function() {
-  connect();
-  console.log("Connect button clicked")
-});
-
 ethjsPersonalSignButton.addEventListener("click", function(event) {
 
   event.preventDefault();
