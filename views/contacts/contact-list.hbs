@@ -1,26 +1,30 @@
 {{>navbar}}
 <div class="big-container manage-products-wrapper">
   <h3 class="manage-products-title">Manage your contacts</h3>
-  <table class="product-manage-table">
-    <thead>
-      <tr class="table-row">
-        <th class="table-head">Contact's avatar</th>
-        <th class="table-head">Last Name</th>
-        <th class="table-head">First name</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each contacts}}
-      <tr class="table-row">
-        {{> contactRow}}
-      </tr>
-      {{/each}}
-      {{#unless contacts}}
-      <tr>
-        <td colspan="4">sorry no contacts yet</td>
-      </tr>
-      {{/unless}}
-    </tbody>
-  </table>
-  <a class="navbar-brand font-weight-bold"href="/contact-create">Create contact</a>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <table class="product-manage-table">
+        <thead>
+          <tr class="table-row">
+            <th class="table-head">Contact's avatar</th>
+            <th class="table-head">Last Name</th>
+            <th class="table-head">First name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each contacts}}
+          <tr class="table-row">
+            {{> contactRow}}
+          </tr>
+          {{/each}}
+          {{#unless contacts}}
+          <tr>
+            <td colspan="4">sorry no contacts yet</td>
+          </tr>
+          {{/unless}}
+        </tbody>
+      </table>
+      <a class="navbar-brand font-weight-bold"href="/contact-create">Create contact</a>
+      </div>
+    </div>
 </div>

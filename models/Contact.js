@@ -14,7 +14,9 @@ const contactSchema = new Schema({
     lastName: String,
     secondaryEmails: [String],
     phoneNumbers: [String],
-    ethAddresses: [String],
+    ethAddresses: [{
+      type: String,
+      validated: Boolean}],
     postalAddresses: [{
       streetName: String,
       streetNumber: Number,
