@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
 //   baseURL: "http://localhost:3000"
 // });
 
-var connectButton = document.getElementById("connectButton");
 var ethjsPersonalSignButton = document.getElementById("ethjsPersonalSignButton");
 
 function connect() {
