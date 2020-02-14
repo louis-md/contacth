@@ -15,11 +15,12 @@ var btnAddPostalAddress = document.getElementById("btn-add-postalAddress");
 var btnDeletePostalAddress = document.querySelectorAll("#btn-delete-postalAddress");
 
 btnAddNumber.onclick = function () {
-  console.log("herreee")
   let div = document.createElement("div");
-  div.innerHTML = `<label for="contact-phone" class="label-descr label">phone number</label>
-    <input id="contact-phone" type="text" name="phoneNumbers" class="input-text input">
-    <span id="btn-delete-number" class="fa fa-trash table-icon" ></span>`;
+  div.innerHTML = `
+    <div id="fieldPhoneNumber" class="form-group">
+    <input id="contact-phone" type="text" name="phoneNumbers" class="form-control">
+    <span id="btn-delete-number" class="btn btn-secondary btn-sm">Delete</span>
+    </div>`;
   phoneNumbers.appendChild(div);
   btnDeleteNumber = document.querySelectorAll("#btn-delete-number");
   btnDeleteNumber.forEach(element => {
@@ -37,10 +38,11 @@ btnDeleteNumber.forEach(element => {
 
 btnAddEmail.onclick = function () {
   let div = document.createElement("div");
-  div.innerHTML = `<label for="contact-email" class="label-ref label">email</label>
-  <input id="contact-email" type="text" name="secondaryEmails" class="input-text input"
-      placeholder="test@gmail.com">
-      <span id="btn-delete-email" class="fa fa-trash table-icon" ></span>`;
+  div.innerHTML = `
+  <div id="fieldEmail" class="form-group">
+  <input id="contact-email" type="text" name="secondaryEmails" class="form-control" placeholder="steve.wozniak@apple.com">
+  <span id="btn-delete-email" class="btn btn-secondary btn-sm">Delete</span>
+  </div>`;
   emails.appendChild(div);
   btnDeleteEmail = document.querySelectorAll("#btn-delete-email");
   btnDeleteEmail.forEach(element => {
@@ -61,9 +63,12 @@ btnDeleteEmail.forEach(element => {
 
 btnAddEthAddress.onclick = function () {
   let div = document.createElement("div");
-  div.innerHTML = `<label for="contact-ethereumAddresses" class="label-price label">ethereum address</label>
-  <input id="contact-ethereumAddresses" type="text" name="ethAddresses" class="input-text input">
-  <span id="btn-delete-ethAddress" class="fa fa-trash table-icon" ></span>`;
+  div.innerHTML = `
+  <div id="ethAddresses" class="form-group">
+  <label for="contact-ethereumAddresses">ethereum address</label>
+  <input id="contact-ethereumAddresses" type="text" name="ethAddresses" class="form-control">
+  <span id="btn-delete-ethAddress" class="btn btn-secondary btn-sm">Delete</span>
+  </div>`;
   ethAddresses.appendChild(div);
   btnDeleteEthAddress = document.querySelectorAll("#btn-delete-ethAddress");
   btnDeleteEthAddress.forEach(element => {
@@ -81,40 +86,38 @@ btnDeleteEthAddress.forEach(element => {
 
 btnAddPostalAddress.onclick = function () {
   let div = document.createElement("div");
-  div.innerHTML = `<div class="form-item-wrapper flexed-item">
-  <label for="address-streetName" class="label-name label">street name</label>
-  <input id="address-streetName" type="text" name="streetName" class="input-text input">
+  div.innerHTML = `<div class="form-group">
+  <label for="address-streetName">Street name</label>
+  <input id="address-streetName" type="text" name="streetName" class="form-control">
 </div>
-<div class="form-item-wrapper flexed-item">
-  <label for="address-streetNumber" class="label-name label">street number</label>
-  <input id="address-streetNumber" type="number" min="1" name="streetNumber" class="input-text input">
+<div class="form-group">
+  <label for="address-streetNumber">Street number</label>
+  <input id="address-streetNumber" type="number" min="1" name="streetNumber" class="form-control">
 </div>
-<div class="form-item-wrapper flexed-item">
-  <label for="address-special" class="label-name label">special</label>
-  <input id="address-special" type="text" name="special" class="input-text input">
+<div class="form-group">
+  <label for="address-special">Special (bis, ter...)</label>
+  <input id="address-special" type="text" name="special" class="form-control">
 </div>
-<div class="form-item-wrapper flexed-item">
-  <label for="address-postCode" class="label-name label">post code</label>
-  <input id="address-postCode" type="number" name="postCode" class="input-text input">
+<div class="form-group">
+  <label for="address-postCode">Post code</label>
+  <input id="address-postCode" type="number" name="postCode" class="form-control">
 </div>
-<div class="form-item-wrapper flexed-item">
-  <label for="address-city" class="label-name label">city</label>
-  <input id="address-city" type="text" name="city" class="input-text input">
+<div class="form-group">
+  <label for="address-city">City</label>
+  <input id="address-city" type="text" name="city" class="form-control">
 </div>
-<div class="form-item-wrapper flexed-item">
-  <label for="address-country" class="label-name label">country</label>
-  <input id="address-country" type="text" name="country" class="input-text input">
+<div class="form-group">
+  <label for="address-country">Country</label>
+  <input id="address-country" type="text" name="country" class="form-control">
 </div>
-<div class="form-item-wrapper flexed-item">
-  <label class="label">is principal residency ?</label>
-  <div class="row">
-      <label for="is-principalResidency">yes</label>
-      <input id="is-principalResidency" type="radio" name="principalResidency" value="yes">
-      <label for="is-not-principalResidency">no</label>
-      <input id="is-not-principalResidency" type="radio" name="principalResidency" value="no" checked>
-  </div>
+<div class="form-group">
+  <label class="label">Is it the principal residency ?</label>
+      <label for="is-principalResidency">Yes</label>
+      <input id="is-principalResidency" type="radio" name="principalResidency" value="Yes">
+      <label for="is-not-principalResidency">No</label>
+      <input id="is-not-principalResidency" type="radio" name="principalResidency" value="No" checked>
 </div>
-<span id="btn-delete-postalAddress" class="fa fa-trash table-icon" ></span>
+<span id="btn-delete-postalAddress" class="btn btn-secondary btn-sm">Delete</span>
 <hr>`;
   postalAddresses.appendChild(div);
   btnDeletePostalAddress = document.querySelectorAll("#btn-delete-postalAddress");

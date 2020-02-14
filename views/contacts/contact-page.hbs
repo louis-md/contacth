@@ -1,64 +1,64 @@
 {{>navbar}}
-<h1>{{contact.firstName}} {{contact.lastName}}</h1>
 
-<img src="{{contact.avatar}}" alt="profile picture">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header p-4">
+            <span><img style="width: 30px" src="{{contact.avatar}}" alt="profile picture"></span>
+            <h5 class="modal-title text-primary font-weight-bold">{{contact.firstName}} {{contact.lastName}}</h5>
+        </div>
+      <div class="form-group">
 
-
-<div>
-  <h2>phone numbers</h2>
-  <ul>
-    {{#each contact.phoneNumbers}}
-    <li>{{this}}</li>
-    {{/each}}
-  </ul>
-</div>
-<div>
-  <h2>Emails</h2>
-  <ul>
-    {{#each contact.secondaryEmails}}
-    <li>{{this}}</li>
-    {{/each}}
-  </ul>
-</div>
-<div>
-  <h2>Ethereum address</h2>
-  <ul>
-    {{#each contact.ethAddresses}}
-    <li>{{this}}</li>
-    {{/each}}
-  </ul>
-</div>
-<h2>Postal address</h2>
-<ul>
-  {{#each contact.postalAddresses}}
-  <li>
-    {{#if this.principalResidency }}
-    <h4>Principal Residency</h4> <br>
-    {{else}}
-    <h4>Secondary Residency </h4><br>
-    {{/if}}
-    {{this.streetNumber}} {{this.special}} {{this.streetName}} <br>
-    {{this.postCode}}   {{this.city}} <br>
-    {{this.country}}
-  </li>
-  {{/each}}
-</ul>
-</div>
-<div>
-  <h2>Social Accounts</h2>
-  <ul>
-    <li> Google : {{contact.googleId}}</li>
-    <li>Twitter : {{contact.twitterId}}</li>
-    <li>Facebook : {{contact.facebookId}}</li>
-    <li>GitHub : {{contact.githubId}}</li>
-  </ul>
-</div>
-
-<div>
-  <ul>
-    <li></li>
-    <a href="/contacts/contact-edit/{{contact._id}}">update contact</a>
-    <li></li>
-    <a href="/contacts/contact-delete/{{contact._id}}">delete contact</a>
-  </ul>
+<h2>Phone numbers</h2>
+      <ul>
+        {{#each contact.phoneNumbers}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+    <div>
+      <h2>Emails</h2>
+      <ul>
+        {{#each contact.secondaryEmails}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+    <div>
+      <h2>Ethereum address</h2>
+      <ul>
+        {{#each contact.ethAddresses}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    </div>
+    <h2>Postal address</h2>
+    <ul>
+      {{#each contact.postalAddresses}}
+      <li>
+        {{#if this.principalResidency }}
+        <h4>Principal Residency</h4> <br>
+        {{else}}
+        <h4>Secondary Residency </h4><br>
+        {{/if}}
+        {{this.streetNumber}} {{this.special}} {{this.streetName}} <br>
+        {{this.postCode}}   {{this.city}} <br>
+        {{this.country}}
+      </li>
+      {{/each}}
+    </ul>
+    <div>
+      <h2>Social Accounts</h2>
+      <ul>
+        <li>Google : {{contact.googleId}}</li>
+        <li>Twitter : {{contact.twitterId}}</li>
+        <li>Facebook : {{contact.facebookId}}</li>
+        <li>GitHub : {{contact.githubId}}</li>
+      </ul>
+      <div>
+        <button class="btn btn-secondary btn-sm"><a href="/contacts/contact-edit/{{contact._id}}" style="color:white">Update contact</a></button>
+        <button class="btn btn-secondary btn-sm"><a href="/contacts/contact-delete/{{contact._id}}" style="color:white">Delete contact</a></button>
+    </div>
+    </div>
+      </div>
+  </div>
 </div>

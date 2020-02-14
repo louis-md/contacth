@@ -1,13 +1,14 @@
 {{>navbar}}
 
-
-<h1>{{user.profile.firstName}} {{user.profile.lastName}}</h1>
-
-<img src="{{user.profile.avatar}}" alt="profile picture">
-
-
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header p-4">
+            <span><img style="width: 30px" src="{{user.profile.avatar}}" alt="profile picture"></span>
+            <h5 class="modal-title text-primary font-weight-bold">{{user.profile.firstName}}{{user.profile.lastName}}</h5>
+        </div>
+      <div class="form-group">
 <div>
-  <h2>phone numbers</h2>
+  <h2>Phone numbers</h2>
   <ul>
     {{#each user.profile.phoneNumbers}}
     <li>{{this}}</li>
@@ -17,6 +18,7 @@
 <div>
   <h2>Emails</h2>
   <ul>
+    <li>{{user.email}}</li>
     {{#each user.profile.secondaryEmails}}
     <li>{{this}}</li>
     {{/each}}
@@ -57,8 +59,6 @@
 </div>
 
 <div>
-
-    <a href="/user/profile-edit">update profile</a>
-   
- 
+    <button class="btn btn-secondary btn-sm"><a href="/user/profile-edit" style="color:white">Update profile</a></button>
+    <button type="button" class="btn btn-secondary btn-sm" id="ethjsPersonalSignButton">Confirm Ethereum address</button> 
 </div>
