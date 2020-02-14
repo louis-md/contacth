@@ -4,9 +4,10 @@ const User = require("../models/User");
 const contactModel = require("../models/Contact");
 const uploader = require("./../config/cloudinary");
 require("./auth");
+const protectRoute = require("../middlewares/protectRoute");
 var scripts = [{ script: "/javascripts/script2.js" }];
 
-router.get("/user/:id", (req, res, next) => {
+router.get("/user/profile", protectRoute, (req, res, next) => {
   User
     .findById(req.session.currentUser._id)
     .populate("profile")
@@ -16,7 +17,7 @@ router.get("/user/:id", (req, res, next) => {
     .catch(next);
 });
 
-router.get("/user/profile-edit/:id", (req, res, next) => {
+router.get("/user/profile-edit", protectRoute, (req, res, next) => {
   User
     .findById(req.session.currentUser._id)
     .populate("profile")

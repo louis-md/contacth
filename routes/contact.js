@@ -4,11 +4,12 @@ const User = require("../models/User");
 const contactModel = require("../models/Contact");
 const uploader = require("./../config/cloudinary");
 require("./auth");
-// const protectRoute = require("../middlewares/protectRoute");
+const protectUserRoute = require("../middlewares/protectUserRoute");
+const protectRoute = require("../middlewares/protectRoute");
 var scripts = [{ script: "/javascripts/script2.js" }];
 
 
-router.get("/contact-create", (req, res) => {
+router.get("/contact-create", protectRoute, (req, res) => {
   User
     .findById(req.session.currentUser._id)
     .then(dbResults => {
@@ -54,7 +55,7 @@ router.post("/contact-create", uploader.single("avatar"), (req, res, next) => {
     .catch(next);
 });
 
-router.get("/contact/:id", (req, res, next) => {
+router.get("/contact/:id",protectUserRoute, (req, res, next) => {
   Promise.all([contactModel.findById(req.params.id), User.findById(req.session.currentUser._id)])
     .then(dbResults => {
       res.render("contacts/contact-page", {
@@ -65,7 +66,7 @@ router.get("/contact/:id", (req, res, next) => {
     .catch(next);
 });
 
-router.get("/contacts/contact-edit/:id", (req, res, next) => {
+router.get("/contacts/contact-edit/:id",protectUserRoute, (req, res, next) => {
   Promise.all([contactModel
     .findById(req.params.id), User.findById(req.session.currentUser._id)])
     .then(dbResults => {
@@ -121,7 +122,7 @@ router.post("/contacts/contact-edit/:id", uploader.single("avatar"), (req, res, 
     .catch(next);
 });
 
-router.get("/contacts/contact-delete/:id", (req, res, next) => {
+router.get("/contacts/contact-delete/:id",protectUserRoute, (req, res, next) => {
   contactModel
     .findByIdAndDelete(req.params.id)
     .then(dbRes => {
