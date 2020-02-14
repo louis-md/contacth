@@ -4,6 +4,7 @@ const User = require("../models/User");
 const contactModel = require("../models/Contact");
 const uploader = require("./../config/cloudinary");
 require("./auth");
+const protectUserRoute = require("../middlewares/protectUserRoute");
 const protectRoute = require("../middlewares/protectRoute");
 var scripts = [{ script: "/javascripts/script2.js" }];
 
