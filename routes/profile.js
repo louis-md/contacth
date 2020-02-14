@@ -23,15 +23,16 @@ router.get("/user/profile-edit", protectRoute, (req, res, next) => {
     .findById(req.session.currentUser._id)
     .populate("profile")
     .then(user => {
-      res.render("profile/profile-edit", { 
+      res.render("profile/profile-edit", {
         user,
-        scripts: scripts })
+        scripts: scripts
+      })
     })
     .catch(next);
 });
 
 router.post("/user/profile-edit/:id", uploader.single("avatar"), (req, res, next) => {
-  const { firstName, lastName, secondaryEmails, phoneNumbers, ethAddresses, streetName, streetNumber, special, postCode, city, country, principalResidency, googleId, twitterId, githubId } = req.body;
+  const { firstName, lastName, secondaryEmails, phoneNumbers, ethAddresses, streetName, streetNumber, special, postCode, city, country, principalResidency, googleId, twitterId,facebookId, githubId } = req.body;
 
   contactModel
     .findById(req.params.id)
@@ -56,13 +57,16 @@ router.post("/user/profile-edit/:id", uploader.single("avatar"), (req, res, next
             country,
             principalResidency: principalResidency === "yes"
           }],
-          googleId,
-          twitterId,
-          githubId,
+          socialAccounts: {
+            googleId,
+            twitterId,
+            facebookId,
+            githubId
+          },
           avatar,
           user: req.session.currentUser._id
         }, { new: true }), User.findById(req.session.currentUser._id).populate("profile")])
-        
+
         .then(dbResult => {
 
           res.render("profile/user-profile", {

@@ -13,9 +13,10 @@ router.get("/contact-create", protectRoute, (req, res) => {
   User
     .findById(req.session.currentUser._id)
     .then(dbResults => {
-      res.render("contacts/contact-create", { 
+      res.render("contacts/contact-create", {
         user: dbResults,
-        scripts: scripts })
+        scripts: scripts
+      })
     });
 });
 
@@ -55,7 +56,7 @@ router.post("/contact-create", uploader.single("avatar"), (req, res, next) => {
     .catch(next);
 });
 
-router.get("/contact/:id",protectUserRoute, (req, res, next) => {
+router.get("/contact/:id", protectUserRoute, (req, res, next) => {
   Promise.all([contactModel.findById(req.params.id), User.findById(req.session.currentUser._id)])
     .then(dbResults => {
       res.render("contacts/contact-page", {
@@ -66,7 +67,7 @@ router.get("/contact/:id",protectUserRoute, (req, res, next) => {
     .catch(next);
 });
 
-router.get("/contacts/contact-edit/:id",protectUserRoute, (req, res, next) => {
+router.get("/contacts/contact-edit/:id", protectUserRoute, (req, res, next) => {
   Promise.all([contactModel
     .findById(req.params.id), User.findById(req.session.currentUser._id)])
     .then(dbResults => {
@@ -80,7 +81,7 @@ router.get("/contacts/contact-edit/:id",protectUserRoute, (req, res, next) => {
 });
 
 router.post("/contacts/contact-edit/:id", uploader.single("avatar"), (req, res, next) => {
-  const { firstName, lastName, secondaryEmails, phoneNumbers, ethAddresses, streetName, streetNumber, special, postCode, city, country, principalResidency, googleId, twitterId, githubId } = req.body;
+  const { firstName, lastName, secondaryEmails, phoneNumbers, ethAddresses, streetName, streetNumber, special, postCode, city, country, principalResidency, googleId, twitterId,facebookId, githubId } = req.body;
 
   contactModel
     .findById(req.params.id)
@@ -105,9 +106,12 @@ router.post("/contacts/contact-edit/:id", uploader.single("avatar"), (req, res, 
             country,
             principalResidency: principalResidency === "yes"
           }],
-          googleId,
-          twitterId,
-          githubId,
+          socialAccounts: {
+            googleId,
+            twitterId,
+            facebookId,
+            githubId
+          },
           avatar,
           user: req.session.currentUser._id
         }, { new: true }), User.findById(req.session.currentUser._id)])
@@ -122,7 +126,7 @@ router.post("/contacts/contact-edit/:id", uploader.single("avatar"), (req, res, 
     .catch(next);
 });
 
-router.get("/contacts/contact-delete/:id",protectUserRoute, (req, res, next) => {
+router.get("/contacts/contact-delete/:id", protectUserRoute, (req, res, next) => {
   contactModel
     .findByIdAndDelete(req.params.id)
     .then(dbRes => {
