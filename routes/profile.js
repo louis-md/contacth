@@ -64,7 +64,6 @@ router.post("/user/profile-edit/:id", uploader.single("avatar"), (req, res, next
             githubId
           },
           avatar,
-          user: req.session.currentUser._id
         }, { new: true }), User.findById(req.session.currentUser._id).populate("profile")])
 
         .then(dbResult => {

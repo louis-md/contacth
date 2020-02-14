@@ -59,8 +59,8 @@ router.post("/signup", recaptcha.middleware.verify, (req, res, next) => {
       from: '"Contacth 👻" <contacth@97.network>',
       to: email,
       subject: "Please verify your email ✔",
-      text: `Hi ${firstName}! Please click this link to verify your email: http://localhost:3000/auth/confirm/${token}`,
-      html: `<b>Hi ${firstName}! Please click this link to verify your email: http://localhost:3000/auth/confirm/${token}</b>`
+      text: `Hi ${firstName}! Please click this link to verify your email: https://contacth.herokuapp.com/auth/confirm/${token}`,
+      html: `<b>Hi ${firstName}! Please click this link to verify your email: https://contacth.herokuapp.com/auth/confirm/${token}</b>`
     });
     console.log("Message sent!", info.messageId);
   }
